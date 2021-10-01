@@ -1,5 +1,7 @@
-﻿using Mascotas.Api.Domain;
+﻿using AutoMapper;
+using Mascotas.Api.Domain;
 using Mascotas.Api.Domain.Models;
+using Mascotas.Api.Infrastructure.Entities;
 using Mascotas.Api.Infrastructure.Repositories.IRepositories;
 using System;
 using System.Collections.Generic;
@@ -11,35 +13,55 @@ namespace Mascotas.Api.DomainServices
     public class PetDomainService : IPetDomain
     {
         private readonly IPetRepository petRepository;
+        private readonly IMapper mapper;
 
-        public PetDomainService(IPetRepository petRepository)
+        public PetDomainService(IPetRepository petRepository, IMapper mapper)
         {
             this.petRepository = petRepository;
+            this.mapper = mapper;
         }
 
-        public Task<PetDto> AddPet(PetDto pet)
+        public async Task<PetDto> AddPet(PetDto pet)
         {
-            throw new NotImplementedException();
+            var petMapper = mapper.Map<Pet>(pet);
+            
+            await petRepository.AddPet(petMapper);
+
+            return pet;
         }
 
-        public Task DeletePet(int id)
+        public async Task DeletePet(int id)
         {
-            throw new NotImplementedException();
+            var petDelete = await petRepository.GetPetById(id);
+
+            mapper.Map<PetDto>(petDelete);
         }
 
-        public Task<IEnumerable<PetDto>> GetAllPets()
+        public async Task<IEnumerable<PetDto>> GetAllPets()
         {
-            throw new NotImplementedException();
+            var pets = await petRepository.GetAllPets();
+
+            var allPets = mapper.Map<IEnumerable<PetDto>>(pets);
+
+            return allPets;
         }
 
-        public Task<PetDto> GetPetById(int id)
+        public async Task<PetDto> GetPetById(int id)
         {
-            throw new NotImplementedException();
+            var petById = await petRepository.GetPetById(id);
+
+            var pet = mapper.Map<PetDto>(petById);
+
+            return pet;
         }
 
-        public Task<PetDto> UpdatePet(PetDto pet)
+        public async Task<PetDto> UpdatePet(PetDto petDto)
         {
-            throw new NotImplementedException();
+            var pet = mapper.Map<Pet>(petDto);
+
+            await petRepository.UpdatePet(pet);
+
+            return petDto;
         }
     }
 }

@@ -1,6 +1,7 @@
 using Mascotas.Api.Application;
 using Mascotas.Api.ApplicationServices;
 using Mascotas.Api.Domain;
+using Mascotas.Api.Domain.Mappers;
 using Mascotas.Api.DomainServices;
 using Mascotas.Api.Infrastructure.Context;
 using Mascotas.Api.Infrastructure.Repositories;
@@ -43,6 +44,8 @@ namespace Mascotas.Api
             services.AddScoped<IPetRepository, PetRepository>();
             services.AddScoped<IPetDomain, PetDomainService>();
             services.AddScoped<IPetApplication, PetApplicationService>();
+
+            services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
             services.AddSwaggerGen(c =>
             {

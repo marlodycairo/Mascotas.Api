@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Mascotas.Api.Application;
+using Mascotas.Api.Domain.Models;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -11,9 +13,19 @@ namespace Mascotas.Api.Controllers
     [ApiController]
     public class PetsController : ControllerBase
     {
-        public PetsController()
-        {
+        private readonly IPetApplication petApplication;
 
+        public PetsController(IPetApplication petApplication)
+        {
+            this.petApplication = petApplication;
+        }
+
+        [HttpPost]
+        public async Task<ActionResult<PetDto>> CreatePet(PetDto pet)
+        {
+            var newPet = await petApplication.AddPet(pet);
+
+            return newPet;
         }
     }
 }

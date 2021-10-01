@@ -13,5 +13,6 @@ namespace Mascotas.Api.Infrastructure.Entities
         public string EMail { get; set; }
         public string Address { get; set; }
         public string CellPhone { get; set; }
+        public ICollection<Pet> Pets { get; set; }
     }
 }
