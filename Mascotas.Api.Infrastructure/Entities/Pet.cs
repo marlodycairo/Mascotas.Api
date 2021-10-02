@@ -12,9 +12,8 @@ namespace Mascotas.Api.Infrastructure.Entities
         public string Race { get; set; }
         public string Photo { get; set; }
         public DateTime Born { get; set; }
+        public int OwnerId { get; set; }
         public PetType PetTypes { get; set; }
-        public DogRace DogRaces { get; set; }
-        public CatRace CatRaces { get; set; }
         public Owner Owner { get; set; }
     }
 }
