@@ -8,6 +8,6 @@ namespace Mascotas.Api.Infrastructure.Repositories.IRepositories
 {
     public interface IOwnerRepository
     {
-        Task<Owner> AddOwner();
+        Task<Owner> AddOwner(Owner owner);
     }
 }

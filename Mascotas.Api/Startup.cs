@@ -45,6 +45,10 @@ namespace Mascotas.Api
             services.AddScoped<IPetDomain, PetDomainService>();
             services.AddScoped<IPetApplication, PetApplicationService>();
 
+            services.AddScoped<IOwnerRepository, OwnerRepository>();
+            services.AddScoped<IOwnerDomain, OwnerDomainService>();
+            services.AddScoped<IOwnerApplication, OwnerApplicationService>();
+
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
             services.AddSwaggerGen(c =>

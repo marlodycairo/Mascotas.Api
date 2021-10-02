@@ -11,8 +11,14 @@ namespace Mascotas.Api.Domain.Mappers
     {
         public AutoMapperProfile()
         {
-            CreateMap<Pet, PetDto>();
+            CreateMap<Pet, PetDto>()
+                .ForMember(dest => dest.CatRaces, opt => opt.MapFrom(src => src.CatRaces))
+                .ForMember(dest => dest.DogRaces, opt => opt.MapFrom(src => src.DogRaces))
+                .ForMember(dest => dest.OwnerDto, opt => opt.MapFrom(src => src.Owner));
             CreateMap<PetDto, Pet>();
+
+            CreateMap<Owner, OwnerDto>();
+            CreateMap<OwnerDto, Owner>();
         }
     }
 }

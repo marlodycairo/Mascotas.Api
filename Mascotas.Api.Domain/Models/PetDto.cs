@@ -15,6 +15,6 @@ namespace Mascotas.Api.Domain.Models
         public PetType PetTypes { get; set; }
         public DogRace DogRaces { get; set; }
         public CatRace CatRaces { get; set; }
-        //public Owner Owner { get; set; }
+        public OwnerDto OwnerDto { get; set; }
     }
 }
