@@ -5,7 +5,6 @@ using System.Text.Json.Serialization;
 
 namespace Mascotas.Api.Infrastructure.Enums
 {
-    [JsonConverter(typeof(JsonStringEnumConverter))]
     public enum PetType
     {
         Dog,

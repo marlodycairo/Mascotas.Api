@@ -1,6 +1,8 @@
 ﻿using Mascotas.Api.Infrastructure.Enums;
+using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Text;
 
 namespace Mascotas.Api.Domain.Models

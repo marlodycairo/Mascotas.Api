@@ -21,7 +21,7 @@ namespace Mascotas.Api.Infrastructure.Repositories
 
         public async Task<Pet> AddPet(Pet pet)
         {
-            await _context.AddAsync(pet);
+            await _context.Pets.AddAsync(pet);
 
             await _context.SaveChangesAsync();
 

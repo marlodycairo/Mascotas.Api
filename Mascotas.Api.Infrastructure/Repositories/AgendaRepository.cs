@@ -1,6 +1,7 @@
 ﻿using Mascotas.Api.Infrastructure.Context;
 using Mascotas.Api.Infrastructure.Entities;
 using Mascotas.Api.Infrastructure.Repositories.IRepositories;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -17,9 +18,15 @@ namespace Mascotas.Api.Infrastructure.Repositories
             this.context = context;
         }
 
-        public async Task<Agenda> AddOwner(Agenda agenda)
+        public async Task<Agenda> AddNewAgenda(Agenda agenda)
         {
-            await context.AddAsync(agenda);
+            var dateExists = await context.Agendas.AnyAsync(p => p.Date == agenda.Date);
+
+            if (dateExists)
+            {
+                return agenda;
+            }
+            await context.Agendas.AddAsync(agenda);
 
             await context.SaveChangesAsync();
 

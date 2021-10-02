@@ -19,7 +19,7 @@ namespace Mascotas.Api.Infrastructure.Repositories
 
         public async Task<Owner> AddOwner(Owner owner)
         {
-            await context.AddAsync(owner);
+            await context.Owners.AddAsync(owner);
 
             await context.SaveChangesAsync();
 

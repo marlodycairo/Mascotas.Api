@@ -8,6 +8,6 @@ namespace Mascotas.Api.Infrastructure.Repositories.IRepositories
 {
     public interface IAgendaRepository
     {
-        Task<Agenda> AddOwner(Agenda agenda);
+        Task<Agenda> AddNewAgenda(Agenda agenda);
     }
 }

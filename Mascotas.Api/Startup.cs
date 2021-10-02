@@ -1,6 +1,7 @@
 using Mascotas.Api.Application;
 using Mascotas.Api.ApplicationServices;
 using Mascotas.Api.Domain;
+using Mascotas.Api.Domain.Filters;
 using Mascotas.Api.Domain.Mappers;
 using Mascotas.Api.DomainServices;
 using Mascotas.Api.Infrastructure.Context;
@@ -20,6 +21,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using FluentValidation;
+using FluentValidation.AspNetCore;
 
 namespace Mascotas.Api
 {
@@ -35,8 +38,17 @@ namespace Mascotas.Api
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
             services.AddControllers();
+
+            services.AddMvc(options =>
+            {
+                options.Filters.Add<ValidationFilter>();
+            }).AddFluentValidation(fv =>
+            {
+                fv.RegisterValidatorsFromAssemblies(AppDomain.CurrentDomain.GetAssemblies());
+            });
 
             services.AddDbContext<ApplicationDbContext>(options => 
                     options.UseSqlServer(Configuration.GetConnectionString("ConnectionDefault")));
@@ -49,7 +61,9 @@ namespace Mascotas.Api
             services.AddScoped<IOwnerDomain, OwnerDomainService>();
             services.AddScoped<IOwnerApplication, OwnerApplicationService>();
 
-            services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+            services.AddScoped<IAgendaRepository, AgendaRepository>();
+            services.AddScoped<IAgendaDomain, AgendaDomainService>();
+            services.AddScoped<IAgendaApplication, AgendaApplicationService>();
 
             services.AddSwaggerGen(c =>
             {
