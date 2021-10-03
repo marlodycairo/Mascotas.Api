@@ -43,7 +43,7 @@ namespace Mascotas.Api.Infrastructure.Repositories
 
         public async Task DeleteAgenda(int id)
         {
-            var agenda = context.Agendas.FindAsync(id);
+            var agenda = await context.Agendas.FirstOrDefaultAsync(p => p.Id == id);
 
             context.Remove(agenda);
 

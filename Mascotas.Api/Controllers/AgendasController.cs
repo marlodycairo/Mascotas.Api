@@ -44,7 +44,7 @@ namespace Mascotas.Api.Controllers
             return Ok(agenda);
         }
 
-        [HttpPut]
+        [HttpPut("{id}")]
         public async Task<ActionResult<AgendaDto>> UpdateAgenda(int id, AgendaDto agenda)
         {
             if (id != agenda.Id)
@@ -56,7 +56,7 @@ namespace Mascotas.Api.Controllers
             return Ok(agendaUpdate);
         }
 
-        [HttpDelete]
+        [HttpDelete("{id}")]
         public async Task DeleteAgendaById(int id)
         {
             await agendaApplication.DeleteAgenda(id);

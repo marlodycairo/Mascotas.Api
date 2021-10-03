@@ -32,9 +32,7 @@ namespace Mascotas.Api.DomainServices
 
         public async Task DeleteAgenda(int id)
         {
-            var agenda = await agendaRepository.GetAgendaById(id);
-
-            mapper.Map<AgendaDto>(agenda);
+            await agendaRepository.DeleteAgenda(id);
         }
 
         public async Task<AgendaDto> GetAgendaById(int id)
