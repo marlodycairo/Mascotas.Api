@@ -65,6 +65,14 @@ namespace Mascotas.Api
             services.AddScoped<IAgendaDomain, AgendaDomainService>();
             services.AddScoped<IAgendaApplication, AgendaApplicationService>();
 
+            services.AddScoped<ILoginApplication, LoginApplicationService>();
+            services.AddScoped<ILoginDomain, LoginDomainService>();
+
+            services.AddScoped<IUserDomain, UserDomainService>();
+            services.AddScoped<IUserRepository, UserRepository>();
+
+            services.AddScoped<IRolRepository, RolRepository>();
+
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Mascotas.Api", Version = "v1" });

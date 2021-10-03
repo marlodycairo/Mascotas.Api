@@ -23,6 +23,15 @@ namespace Mascotas.Api.Domain.Mappers
                 .ForMember(dest => dest.OwnerDto, opt => opt.MapFrom(src => src.Owner))
                 .ForMember(dest => dest.PetDto, opt => opt.MapFrom(src => src.Pet));
             CreateMap<AgendaDto, Agenda>();
+
+            CreateMap<Rol, RolDto>();
+            CreateMap<RolDto, Rol>();
+
+            CreateMap<User, UserDto>();
+            CreateMap<UserDto, User>();
+
+            CreateMap<UserRol, UserRolDto>();
+            CreateMap<UserRolDto, UserRol>();
         }
     }
 }

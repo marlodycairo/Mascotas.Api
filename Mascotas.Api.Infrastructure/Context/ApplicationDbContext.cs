@@ -15,5 +15,8 @@ namespace Mascotas.Api.Infrastructure.Context
         public DbSet<Owner> Owners { get; set; }
         public DbSet<Pet> Pets { get; set; }
         public DbSet<Agenda> Agendas { get; set; }
+        public DbSet<Rol> Rols { get; set; }
+        public DbSet<User> Users { get; set; }
+        public DbSet<UserRol> UserRols { get; set; }
     }
 }
