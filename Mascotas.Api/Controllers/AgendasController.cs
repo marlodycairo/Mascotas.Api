@@ -27,5 +27,39 @@ namespace Mascotas.Api.Controllers
 
             return Ok(newAgenda);
         }
+
+        [HttpGet]
+        public async Task<IEnumerable<AgendaDto>> GetAgendas()
+        {
+            var agendas = await agendaApplication.GetAllAgendas();
+
+            return agendas.ToList();
+        }
+
+        [HttpGet("{id}")]
+        public async Task<ActionResult<AgendaDto>> GetAgenda(int id)
+        {
+            var agenda = await agendaApplication.GetAgendaById(id);
+
+            return Ok(agenda);
+        }
+
+        [HttpPut]
+        public async Task<ActionResult<AgendaDto>> UpdateAgenda(int id, AgendaDto agenda)
+        {
+            if (id != agenda.Id)
+            {
+                return BadRequest();
+            }
+            var agendaUpdate = await agendaApplication.UpdateAgenda(agenda);
+
+            return Ok(agendaUpdate);
+        }
+
+        [HttpDelete]
+        public async Task DeleteAgendaById(int id)
+        {
+            await agendaApplication.DeleteAgenda(id);
+        }
     }
 }

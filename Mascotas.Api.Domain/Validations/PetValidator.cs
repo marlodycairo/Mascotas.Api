@@ -18,6 +18,15 @@ namespace Mascotas.Api.Domain.Validations
 
             RuleFor(p => p.Born.ToShortDateString())
                 .NotEmpty().WithMessage("Ingrese la fecha de nacimiento de su mascota");
+
+            RuleFor(p => p.OwnerId).NotNull()
+                .NotEmpty().WithMessage("Debe incluir información del propietario.");
+
+            RuleFor(p => p.PetTypes).NotNull()
+                .NotEmpty().WithMessage("Debe seleccionar el tipo de mascota.");
+
+            RuleFor(p => p.Photo).NotNull()
+                .NotEmpty().WithMessage("Debe seleccionar la foto de la mascota.");
         }
     }
 }

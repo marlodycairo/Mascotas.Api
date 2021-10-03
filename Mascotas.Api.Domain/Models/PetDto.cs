@@ -17,5 +17,8 @@ namespace Mascotas.Api.Domain.Models
         public int OwnerId { get; set; }
         public PetType PetTypes { get; set; }
         public OwnerDto OwnerDto { get; set; }
+
+        public DateTime DateLocal => Born.ToLocalTime();
+
     }
 }

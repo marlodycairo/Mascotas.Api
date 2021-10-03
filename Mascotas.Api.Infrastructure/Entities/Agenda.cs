@@ -13,5 +13,7 @@ namespace Mascotas.Api.Infrastructure.Entities
         public int PetId { get; set; }
         public Owner Owner { get; set; }
         public Pet Pet { get; set; }
+
+        public DateTime DateLocal => Date.ToLocalTime();
     }
 }

@@ -13,5 +13,7 @@ namespace Mascotas.Api.Domain.Models
         public int PetId { get; set; }
         public OwnerDto OwnerDto { get; set; }
         public PetDto PetDto { get; set; }
+
+        public DateTime DateLocal => Date.ToLocalTime();
     }
 }

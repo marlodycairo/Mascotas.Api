@@ -21,5 +21,25 @@ namespace Mascotas.Api.ApplicationServices
         {
             return await agendaDomain.AddAgenda(agenda);
         }
+
+        public async Task DeleteAgenda(int id)
+        {
+            await agendaDomain.DeleteAgenda(id);
+        }
+
+        public async Task<AgendaDto> GetAgendaById(int id)
+        {
+            return await agendaDomain.GetAgendaById(id);
+        }
+
+        public async Task<IEnumerable<AgendaDto>> GetAllAgendas()
+        {
+            return await agendaDomain.GetAllAgendas();
+        }
+
+        public async Task<AgendaDto> UpdateAgenda(AgendaDto agenda)
+        {
+            return await agendaDomain.UpdateAgenda(agenda);
+        }
     }
 }
