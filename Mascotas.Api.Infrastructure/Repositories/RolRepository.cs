@@ -1,8 +1,7 @@
 ﻿using Mascotas.Api.Infrastructure.Context;
 using Mascotas.Api.Infrastructure.Repositories.IRepositories;
-using System;
 using System.Collections.Generic;
-using System.Text;
+using System.Linq;
 
 namespace Mascotas.Api.Infrastructure.Repositories
 {
@@ -17,9 +16,11 @@ namespace Mascotas.Api.Infrastructure.Repositories
 
         public List<string> GetRolsByUsers(int userId)
         {
-            var list = new List<string>();
-
-            return list;
+            return (from p in context.UserRols
+                    join rol in context.Rols
+                    on p.RolId equals rol.Id
+                    where p.UserId == userId
+                    select rol.Name).ToList();
         }
     }
 }
