@@ -1,12 +1,15 @@
 ﻿using Mascotas.Api.Domain;
 using Mascotas.Api.Domain.Models;
 using Mascotas.Api.Infrastructure.Context;
+using Mascotas.Api.Infrastructure.Entities;
 using Mascotas.Api.Infrastructure.Repositories.IRepositories;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
+using System.Linq;
+using System.Security.Claims;
 using System.Text;
 
 namespace Mascotas.Api.DomainServices
@@ -26,7 +29,24 @@ namespace Mascotas.Api.DomainServices
 
         public LoginDto AuthenticateUser(LoginDto loginDto)
         {
-            throw new NotImplementedException();
+            LoginDto user = null;
+
+            IEnumerable<User> users;
+
+            users = from p in context.Users
+                    where p.UserName == loginDto.User
+                    select p;
+
+            if (loginDto.User == users.First().UserName)
+            {
+                user = new LoginDto
+                {
+                    User = users.First().UserName,
+                    Pass = users.First().Password
+                };
+            }
+
+            return user;
         }
 
         public string GenerateJsonWebToken(LoginDto loginDto)
@@ -35,7 +55,26 @@ namespace Mascotas.Api.DomainServices
 
             var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
 
-            var token = new JwtSecurityToken();
+            var user = context.Users.FirstOrDefault(p => p.UserName == loginDto.User);
+
+            var rols = rolRepository.GetRolsByUsers(user.Id);
+
+            var claims = new Claim[] { };
+
+            foreach (var rol in rols)
+            {
+                claims = new Claim[]
+                {
+                    new Claim(ClaimTypes.Role, rol),
+                    new Claim(ClaimTypes.Email, loginDto.User),
+                    new Claim(JwtRegisteredClaimNames.Iss, "https://localhost:44310/login/"),
+                    new Claim(JwtRegisteredClaimNames.Sub, loginDto.User),
+                    new Claim(JwtRegisteredClaimNames.Email, loginDto.User),
+                    new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
+                };
+            }
+
+            var token = new JwtSecurityToken(configuration["Jwt.Issuer"], configuration["Jwt:Issuer"], claims, expires: DateTime.Now.AddMinutes(120), signingCredentials: credentials);
 
             return new JwtSecurityTokenHandler().WriteToken(token);
         }
