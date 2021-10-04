@@ -43,7 +43,7 @@ namespace Mascotas.Api.DomainServices
                 user = new LoginDto
                 {
                     User = users.First().UserName,
-                    Pass = users.First().Password
+                    Pass = users.First().Pass
                 };
             }
 

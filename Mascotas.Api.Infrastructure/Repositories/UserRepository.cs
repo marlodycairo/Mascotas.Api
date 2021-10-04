@@ -3,6 +3,7 @@ using Mascotas.Api.Infrastructure.Repositories.IRepositories;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Linq;
 
 namespace Mascotas.Api.Infrastructure.Repositories
 {
@@ -17,7 +18,9 @@ namespace Mascotas.Api.Infrastructure.Repositories
 
         public void Login(string user, string pass)
         {
-            throw new NotImplementedException();
+            var objUser = (from p in context.Users
+                           where p.UserName == user && p.Pass == pass
+                           select p).FirstOrDefault();
         }
     }
 }

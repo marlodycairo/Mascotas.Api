@@ -23,6 +23,9 @@ using System.Linq;
 using System.Threading.Tasks;
 using FluentValidation;
 using FluentValidation.AspNetCore;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 
 namespace Mascotas.Api
 {
@@ -73,9 +76,51 @@ namespace Mascotas.Api
 
             services.AddScoped<IRolRepository, RolRepository>();
 
+            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+                    .AddJwtBearer(options =>
+                    {
+                        options.RequireHttpsMetadata = true;
+                        options.SaveToken = true;
+
+                        options.TokenValidationParameters = new TokenValidationParameters
+                        {
+                            ValidateAudience = true,
+                            ValidateIssuer = true,
+                            ValidateIssuerSigningKey = true,
+                            ValidateLifetime = false,
+                            ValidAudience = Configuration["Jwt:Issuer"],
+                            ValidIssuer = Configuration["Jwt:Issuer"],
+                            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["Jwt:Key"]))
+                        };
+                    });
+
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Mascotas.Api", Version = "v1" });
+
+                var securityScheme = new OpenApiSecurityScheme
+                {
+                    Name = "JWT Authentication",
+                    Description = "Enter JWT Bearer token **_only_**",
+                    In = ParameterLocation.Header,
+                    Type = SecuritySchemeType.Http,
+                    Scheme = "bearer",
+                    BearerFormat = "JWT",
+                    Reference = new OpenApiReference
+                    {
+                        Id = JwtBearerDefaults.AuthenticationScheme,
+                        Type = ReferenceType.SecurityScheme
+                    }
+                };
+
+                c.AddSecurityDefinition(securityScheme.Reference.Id, securityScheme);
+
+                c.AddSecurityRequirement(new OpenApiSecurityRequirement 
+                {
+                    {
+                        securityScheme, new string[] { }
+                    }
+                });
             });
         }
 
@@ -92,6 +137,8 @@ namespace Mascotas.Api
             app.UseHttpsRedirection();
 
             app.UseRouting();
+
+            app.UseAuthentication()
 
             app.UseAuthorization();
 
