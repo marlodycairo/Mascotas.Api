@@ -68,7 +68,7 @@ namespace Mascotas.Api.DomainServices
                 {
                     new Claim(ClaimTypes.Role, rol),
                     new Claim(ClaimTypes.Email, loginDto.User),
-                    new Claim(JwtRegisteredClaimNames.Iss, "https://localhost:44310/login/"),
+                    new Claim(JwtRegisteredClaimNames.Iss, "https://localhost:44368/login/"),
                     new Claim(JwtRegisteredClaimNames.Sub, loginDto.User),
                     new Claim(JwtRegisteredClaimNames.Email, loginDto.User),
                     new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())

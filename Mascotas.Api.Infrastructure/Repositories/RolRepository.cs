@@ -20,7 +20,7 @@ namespace Mascotas.Api.Infrastructure.Repositories
                     join rol in context.Rols
                     on p.RolId equals rol.Id
                     where p.UserId == userId
-                    select rol.Name).ToList();
+                    select rol.RolName).ToList();
         }
     }
 }

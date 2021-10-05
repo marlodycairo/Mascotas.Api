@@ -7,6 +7,6 @@ namespace Mascotas.Api.Infrastructure.Entities
     public class Rol
     {
         public int Id { get; set; }
-        public string Name { get; set; }
+        public string RolName { get; set; }
     }
 }

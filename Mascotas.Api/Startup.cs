@@ -138,7 +138,7 @@ namespace Mascotas.Api
 
             app.UseRouting();
 
-            app.UseAuthentication()
+            app.UseAuthentication();
 
             app.UseAuthorization();
 
