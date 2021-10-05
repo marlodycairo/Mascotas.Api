@@ -21,13 +21,15 @@ namespace Mascotas.Api.DomainServices
             this.mapper = mapper;
         }
 
-        public async Task<PetDto> AddPet(PetDto pet)
+        public async Task<PetResponseDto> AddPet(PetDto pet)
         {
             var petMapper = mapper.Map<Pet>(pet);
-            
-            await petRepository.AddPet(petMapper);
 
-            return pet;
+            var returnPetResponse = await petRepository.ReturnPetMessage(petMapper);
+
+            var petResponse = mapper.Map<PetResponseDto>(returnPetResponse);
+
+            return petResponse;
         }
 
         public async Task DeletePet(int id)

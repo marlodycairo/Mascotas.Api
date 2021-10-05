@@ -32,6 +32,9 @@ namespace Mascotas.Api.Domain.Mappers
 
             CreateMap<UserRol, UserRolDto>();
             CreateMap<UserRolDto, UserRol>();
+
+            CreateMap<PetResponse, PetResponseDto>();
+            CreateMap<PetResponseDto, PetResponse>();
         }
     }
 }

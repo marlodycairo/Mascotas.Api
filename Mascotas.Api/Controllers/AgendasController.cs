@@ -1,5 +1,6 @@
 ﻿using Mascotas.Api.Application;
 using Mascotas.Api.Domain.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -21,6 +22,7 @@ namespace Mascotas.Api.Controllers
         }
 
         [HttpPost]
+        //[Authorize(Roles = "admin")]
         public async Task<ActionResult<AgendaDto>> CreateNewOwner(AgendaDto agenda)
         {
             var newAgenda = await agendaApplication.AddNewAgenda(agenda);
@@ -29,6 +31,7 @@ namespace Mascotas.Api.Controllers
         }
 
         [HttpGet]
+        //[Authorize(Roles = "admin")]
         public async Task<IEnumerable<AgendaDto>> GetAgendas()
         {
             var agendas = await agendaApplication.GetAllAgendas();
@@ -37,6 +40,7 @@ namespace Mascotas.Api.Controllers
         }
 
         [HttpGet("{id}")]
+        //[Authorize(Roles = "admin")]
         public async Task<ActionResult<AgendaDto>> GetAgenda(int id)
         {
             var agenda = await agendaApplication.GetAgendaById(id);
@@ -45,6 +49,7 @@ namespace Mascotas.Api.Controllers
         }
 
         [HttpPut("{id}")]
+        //[Authorize(Roles = "admin")]
         public async Task<ActionResult<AgendaDto>> UpdateAgenda(int id, AgendaDto agenda)
         {
             if (id != agenda.Id)
@@ -57,6 +62,7 @@ namespace Mascotas.Api.Controllers
         }
 
         [HttpDelete("{id}")]
+        //[Authorize(Roles = "admin")]
         public async Task DeleteAgendaById(int id)
         {
             await agendaApplication.DeleteAgenda(id);

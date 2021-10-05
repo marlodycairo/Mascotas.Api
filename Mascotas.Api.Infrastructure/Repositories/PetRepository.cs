@@ -1,6 +1,7 @@
 ﻿using Mascotas.Api.Infrastructure.Context;
 using Mascotas.Api.Infrastructure.Entities;
 using Mascotas.Api.Infrastructure.Repositories.IRepositories;
+using Mascotas.Api.Infrastructure.Responses;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -19,13 +20,41 @@ namespace Mascotas.Api.Infrastructure.Repositories
             _context = context;
         }
 
-        public async Task<Pet> AddPet(Pet pet)
+        public async Task<PetResponse> AddPet(Pet pet)
         {
+            var result = await ReturnPetMessage(pet);
+
+            return result;
+        }
+
+        public async Task<PetResponse> ReturnPetMessage(Pet pet)
+        {
+            var petExist = await _context.Pets.AnyAsync(p => p.Id == pet.Id);
+
+            if (petExist)
+            {
+                return new PetResponse 
+                {
+                    Id = pet.Id,
+                    Name = pet.Name,
+                    Message = PetResponseMessage.PetExist 
+                };
+            }
             await _context.Pets.AddAsync(pet);
 
             await _context.SaveChangesAsync();
 
-            return pet;
+            return new PetResponse
+            {
+                Id = pet.Id,
+                Name = pet.Name,
+                Race = pet.Race,
+                Born = pet.Born,
+                Photo = pet.Photo,
+                PetTypes = pet.PetTypes,
+                OwnerId = pet.OwnerId,
+                Message = PetResponseMessage.SuccessfullSaved
+            };
         }
 
         public async Task DeletePet(int id)

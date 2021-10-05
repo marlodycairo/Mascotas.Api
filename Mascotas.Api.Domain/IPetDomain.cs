@@ -8,7 +8,7 @@ namespace Mascotas.Api.Domain
 {
     public interface IPetDomain
     {
-        Task<PetDto> AddPet(PetDto pet);
+        Task<PetResponseDto> AddPet(PetDto pet);
         Task<IEnumerable<PetDto>> GetAllPets();
         Task<PetDto> GetPetById(int id);
         Task DeletePet(int id);

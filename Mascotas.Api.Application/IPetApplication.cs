@@ -8,7 +8,7 @@ namespace Mascotas.Api.Application
 {
     public interface IPetApplication
     {
-        Task<PetDto> AddPet(PetDto pet);
+        Task<PetResponseDto> AddPet(PetDto pet);
         Task<IEnumerable<PetDto>> GetAllPets();
         Task<PetDto> GetPetById(int id);
         Task DeletePet(int id);

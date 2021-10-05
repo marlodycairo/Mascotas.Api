@@ -1,6 +1,8 @@
 ﻿using Mascotas.Api.Application;
 using Mascotas.Api.Domain;
 using Mascotas.Api.Domain.Models;
+using Mascotas.Api.Infrastructure.Entities;
+using Mascotas.Api.Infrastructure.Repositories.IRepositories;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -11,15 +13,17 @@ namespace Mascotas.Api.ApplicationServices
     public class PetApplicationService : IPetApplication
     {
         private readonly IPetDomain petDomain;
+        private readonly IPetRepository petRepository;
 
-        public PetApplicationService(IPetDomain petDomain)
+        public PetApplicationService(IPetDomain petDomain, IPetRepository petRepository)
         {
             this.petDomain = petDomain;
+            this.petRepository = petRepository;
         }
 
-        public async Task<PetDto> AddPet(PetDto pet)
-        {
-            return await petDomain.AddPet(pet);
+        public async Task<PetResponseDto> AddPet(PetDto petDto)
+        {            
+            return await petDomain.AddPet(petDto);
         }
 
         public async Task DeletePet(int id)
