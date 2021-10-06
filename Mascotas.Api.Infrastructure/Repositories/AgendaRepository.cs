@@ -1,6 +1,7 @@
 ﻿using Mascotas.Api.Infrastructure.Context;
 using Mascotas.Api.Infrastructure.Entities;
 using Mascotas.Api.Infrastructure.Repositories.IRepositories;
+using Mascotas.Api.Infrastructure.Responses;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -18,27 +19,40 @@ namespace Mascotas.Api.Infrastructure.Repositories
             this.context = context;
         }
 
-        public async Task<Agenda> AddNewAgenda(Agenda agenda)
+        public async Task<ResponseEntity> AddNewAgenda(Agenda agenda)
         {
-            var dateExists = await context.Agendas.AnyAsync(p => p.Date == agenda.Date);
+            var result = await AddNewAgenda(agenda);
 
-            if (dateExists)
+            return result;
+        }
+
+        public async Task<ResponseEntity> ReturnMessage(Agenda agenda)
+        {
+            var agendaExist = await context.Agendas.AnyAsync(p => p.Id == agenda.Id);
+
+            if (agendaExist)
             {
-                agenda = new Agenda
+                return new ResponseEntity
                 {
-                    Id = 0,
-                    Comment = "",
-                    Date = DateTime.Today,
-                    PetId = 0,
-                    OwnerId = 0
+                    Id = agenda.Id,
+
+                    Date = agenda.Date,
+
+                    Message = ResponseMessage.RecordExist
                 };
-                return agenda;
             }
             await context.Agendas.AddAsync(agenda);
 
             await context.SaveChangesAsync();
 
-            return agenda;
+            return new ResponseEntity
+            {
+                Id = agenda.Id,
+
+                Date = agenda.Date,
+
+                Message = ResponseMessage.RecordSuccessfullSaved
+            };
         }
 
         public async Task DeleteAgenda(int id)
@@ -62,13 +76,39 @@ namespace Mascotas.Api.Infrastructure.Repositories
             return await context.Agendas.ToListAsync();
         }
 
-        public async Task<Agenda> UpdateAgenda(Agenda agenda)
+        public async Task<ResponseEntity> UpdateAgenda(Agenda agenda)
         {
-            context.Update(agenda);
+            var result = await ReturnMessageUpdateAgenda(agenda);
+
+            return result;
+        }
+
+        public async Task<ResponseEntity> ReturnMessageUpdateAgenda(Agenda agenda)
+        {
+            var agendaExist = await context.Agendas.AnyAsync(p => p.Date == agenda.Date);
+
+            if (!agendaExist)
+            {
+                return new ResponseEntity
+                {                    
+                    Date = agenda.Date,
+                    
+                    Message = ResponseMessage.RecordNotExist
+                };
+            }
+            await context.Agendas.AddAsync(agenda);
 
             await context.SaveChangesAsync();
 
-            return agenda;
+            return new ResponseEntity
+            {
+                Id = agenda.Id,
+
+                Date = agenda.Date,
+
+                Message = ResponseMessage.RecordUpdated
+            };
         }
+
     }
 }

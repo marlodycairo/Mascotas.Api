@@ -20,40 +20,35 @@ namespace Mascotas.Api.Infrastructure.Repositories
             _context = context;
         }
 
-        public async Task<PetResponse> AddPet(Pet pet)
+        public async Task<ResponseEntity> AddPet(Pet pet)
         {
-            var result = await ReturnPetMessage(pet);
+            var result = await ReturnMessage(pet);
 
             return result;
         }
 
-        public async Task<PetResponse> ReturnPetMessage(Pet pet)
+        public async Task<ResponseEntity> ReturnMessage(Pet pet)
         {
             var petExist = await _context.Pets.AnyAsync(p => p.Id == pet.Id);
-
+ 
             if (petExist)
             {
-                return new PetResponse 
+                return new ResponseEntity 
                 {
                     Id = pet.Id,
-                    Name = pet.Name,
-                    Message = PetResponseMessage.PetExist 
+                    PropertyName = pet.Name,
+                    Message = ResponseMessage.RecordExist
                 };
             }
             await _context.Pets.AddAsync(pet);
 
             await _context.SaveChangesAsync();
 
-            return new PetResponse
+            return new ResponseEntity
             {
                 Id = pet.Id,
-                Name = pet.Name,
-                Race = pet.Race,
-                Born = pet.Born,
-                Photo = pet.Photo,
-                PetTypes = pet.PetTypes,
-                OwnerId = pet.OwnerId,
-                Message = PetResponseMessage.SuccessfullSaved
+                PropertyName = pet.Name,
+                Message = ResponseMessage.RecordSuccessfullSaved
             };
         }
 
@@ -78,13 +73,36 @@ namespace Mascotas.Api.Infrastructure.Repositories
             return findPetById;
         }
 
-        public async Task<Pet> UpdatePet(Pet pet)
+        public async Task<ResponseEntity> UpdatePet(Pet pet)
         {
-            _context.Update(pet);
+            var result = await ReturnMessageUpdatePet(pet);
+
+            return result;
+        }
+
+        public async Task<ResponseEntity> ReturnMessageUpdatePet(Pet pet)
+        {
+            var petExist = await _context.Pets.AnyAsync(p => p.Id == pet.Id);
+
+            if (!petExist)
+            {
+                return new ResponseEntity
+                {
+                    Id = pet.Id,
+                    PropertyName = pet.Name,
+                    Message = ResponseMessage.RecordNotExist
+                };
+            }
+            await _context.Pets.AddAsync(pet);
 
             await _context.SaveChangesAsync();
 
-            return pet;
+            return new ResponseEntity
+            {
+                Id = pet.Id,
+                PropertyName = pet.Name,
+                Message = ResponseMessage.RecordUpdated
+            };
         }
     }
 }

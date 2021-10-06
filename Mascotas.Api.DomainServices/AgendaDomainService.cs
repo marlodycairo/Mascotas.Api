@@ -21,13 +21,15 @@ namespace Mascotas.Api.DomainServices
             this.mapper = mapper;
         }
 
-        public async Task<AgendaDto> AddAgenda(AgendaDto agenda)
+        public async Task<ResponseEntityDto> AddAgenda(AgendaDto agenda)
         {
             var agendaMapper = mapper.Map<Agenda>(agenda);
 
-            await agendaRepository.AddNewAgenda(agendaMapper);
+            var returnAgendaResponse = await agendaRepository.ReturnMessage(agendaMapper);
 
-            return agenda;
+            var agendaResponse = mapper.Map<ResponseEntityDto>(returnAgendaResponse);
+
+            return agendaResponse;
         }
 
         public async Task DeleteAgenda(int id)
@@ -53,13 +55,15 @@ namespace Mascotas.Api.DomainServices
             return allAgendas;
         }
 
-        public async Task<AgendaDto> UpdateAgenda(AgendaDto agenda)
+        public async Task<ResponseEntityDto> UpdateAgenda(AgendaDto agenda)
         {
-            var agendaById = mapper.Map<Agenda>(agenda);
+            var agendaMapper = mapper.Map<Agenda>(agenda);
 
-            await agendaRepository.UpdateAgenda(agendaById);
+            var returnAgendaResponse = await agendaRepository.ReturnMessageUpdateAgenda(agendaMapper);
 
-            return agenda;
+            var agendaResponse = mapper.Map<ResponseEntityDto>(returnAgendaResponse);
+
+            return agendaResponse;
         }
     }
 }

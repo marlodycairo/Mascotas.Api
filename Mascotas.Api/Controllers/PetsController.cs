@@ -21,11 +21,11 @@ namespace Mascotas.Api.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<PetResponseDto>> CreatePet(PetDto pet)
+        public async Task<ActionResult<ResponseEntityDto>> CreatePet(PetDto pet)
         {
-            var petresult = await petApplication.AddPet(pet);
+            var petResult = await petApplication.AddPet(pet);
 
-            return petresult;
+            return petResult;
         }
     }
 }

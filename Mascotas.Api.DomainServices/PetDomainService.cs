@@ -21,13 +21,13 @@ namespace Mascotas.Api.DomainServices
             this.mapper = mapper;
         }
 
-        public async Task<PetResponseDto> AddPet(PetDto pet)
+        public async Task<ResponseEntityDto> AddPet(PetDto pet)
         {
             var petMapper = mapper.Map<Pet>(pet);
 
-            var returnPetResponse = await petRepository.ReturnPetMessage(petMapper);
+            var returnPetResponse = await petRepository.ReturnMessage(petMapper);
 
-            var petResponse = mapper.Map<PetResponseDto>(returnPetResponse);
+            var petResponse = mapper.Map<ResponseEntityDto>(returnPetResponse);
 
             return petResponse;
         }
@@ -57,13 +57,15 @@ namespace Mascotas.Api.DomainServices
             return pet;
         }
 
-        public async Task<PetDto> UpdatePet(PetDto petDto)
+        public async Task<ResponseEntityDto> UpdatePet(PetDto petDto)
         {
-            var pet = mapper.Map<Pet>(petDto);
+            var petMapper = mapper.Map<Pet>(petDto);
 
-            await petRepository.UpdatePet(pet);
+            var returnPetResponse = await petRepository.ReturnMessage(petMapper);
 
-            return petDto;
+            var petResponse = mapper.Map<ResponseEntityDto>(returnPetResponse);
+
+            return petResponse;
         }
     }
 }

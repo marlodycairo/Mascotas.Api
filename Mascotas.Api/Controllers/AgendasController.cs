@@ -23,11 +23,11 @@ namespace Mascotas.Api.Controllers
 
         [HttpPost]
         //[Authorize(Roles = "admin")]
-        public async Task<ActionResult<AgendaDto>> CreateNewOwner(AgendaDto agenda)
+        public async Task<ActionResult<ResponseEntityDto>> CreateNewOwner(AgendaDto agenda)
         {
-            var newAgenda = await agendaApplication.AddNewAgenda(agenda);
+            var resultAgenda = await agendaApplication.AddNewAgenda(agenda);
 
-            return Ok(newAgenda);
+            return Ok(resultAgenda);
         }
 
         [HttpGet]
@@ -50,12 +50,8 @@ namespace Mascotas.Api.Controllers
 
         [HttpPut("{id}")]
         //[Authorize(Roles = "admin")]
-        public async Task<ActionResult<AgendaDto>> UpdateAgenda(int id, AgendaDto agenda)
+        public async Task<ActionResult<ResponseEntityDto>> UpdateAgenda(int id, AgendaDto agenda)
         {
-            if (id != agenda.Id)
-            {
-                return BadRequest();
-            }
             var agendaUpdate = await agendaApplication.UpdateAgenda(agenda);
 
             return Ok(agendaUpdate);

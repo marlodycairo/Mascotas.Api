@@ -21,7 +21,7 @@ namespace Mascotas.Api.ApplicationServices
             this.petRepository = petRepository;
         }
 
-        public async Task<PetResponseDto> AddPet(PetDto petDto)
+        public async Task<ResponseEntityDto> AddPet(PetDto petDto)
         {            
             return await petDomain.AddPet(petDto);
         }
@@ -41,7 +41,7 @@ namespace Mascotas.Api.ApplicationServices
             return await petDomain.GetPetById(id);
         }
 
-        public async Task<PetDto> UpdatePet(PetDto pet)
+        public async Task<ResponseEntityDto> UpdatePet(PetDto pet)
         {
             return await petDomain.UpdatePet(pet);
         }

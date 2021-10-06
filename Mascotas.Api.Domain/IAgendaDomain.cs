@@ -8,10 +8,10 @@ namespace Mascotas.Api.Domain
 {
     public interface IAgendaDomain
     {
-        Task<AgendaDto> AddAgenda(AgendaDto agenda);
+        Task<ResponseEntityDto> AddAgenda(AgendaDto agenda);
         Task<IEnumerable<AgendaDto>> GetAllAgendas();
         Task<AgendaDto> GetAgendaById(int id);
-        Task<AgendaDto> UpdateAgenda(AgendaDto agenda);
+        Task<ResponseEntityDto> UpdateAgenda(AgendaDto agenda);
         Task DeleteAgenda(int id);
     }
 }

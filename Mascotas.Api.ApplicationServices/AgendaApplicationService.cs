@@ -17,7 +17,7 @@ namespace Mascotas.Api.ApplicationServices
             this.agendaDomain = agendaDomain;
         }
 
-        public async Task<AgendaDto> AddNewAgenda(AgendaDto agenda)
+        public async Task<ResponseEntityDto> AddNewAgenda(AgendaDto agenda)
         {
             return await agendaDomain.AddAgenda(agenda);
         }
@@ -37,7 +37,7 @@ namespace Mascotas.Api.ApplicationServices
             return await agendaDomain.GetAllAgendas();
         }
 
-        public async Task<AgendaDto> UpdateAgenda(AgendaDto agenda)
+        public async Task<ResponseEntityDto> UpdateAgenda(AgendaDto agenda)
         {
             return await agendaDomain.UpdateAgenda(agenda);
         }

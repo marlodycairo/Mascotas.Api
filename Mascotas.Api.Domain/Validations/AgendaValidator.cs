@@ -14,7 +14,6 @@ namespace Mascotas.Api.Domain.Validations
                 .NotEmpty().WithMessage("Ingrese un comentario o motivo de consulta sobre la atención a realizar a la mascota.");
 
             RuleFor(p => p.Date)
-                .NotEqual(p => p.Date)
                 .NotEmpty().WithMessage("Ingrese la fecha y hora para la cita.");
 
             RuleFor(p => p.PetId).NotNull()

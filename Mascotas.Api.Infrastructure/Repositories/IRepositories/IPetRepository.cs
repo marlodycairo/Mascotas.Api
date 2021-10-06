@@ -8,11 +8,12 @@ namespace Mascotas.Api.Infrastructure.Repositories.IRepositories
 {
     public interface IPetRepository
     {
-        Task<PetResponse> AddPet(Pet pet);
+        Task<ResponseEntity> AddPet(Pet pet);
         Task<IEnumerable<Pet>> GetAllPets();
         Task<Pet> GetPetById(int id);
         Task DeletePet(int id);
-        Task<Pet> UpdatePet(Pet pet);
-        Task<PetResponse> ReturnPetMessage(Pet pet);
+        Task<ResponseEntity> UpdatePet(Pet pet);
+        Task<ResponseEntity> ReturnMessage(Pet pet);
+        Task<ResponseEntity> ReturnMessageUpdatePet(Pet pet);
     }
 }
