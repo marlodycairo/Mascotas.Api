@@ -11,7 +11,6 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Claims;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace Mascotas.Api.DomainServices
 {
@@ -52,17 +51,17 @@ namespace Mascotas.Api.DomainServices
 
         public string GenerateJsonWebToken(LoginDto loginDto)
         {
-            var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["Jwt:Key"]));
+            SymmetricSecurityKey securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["Jwt:Key"]));
 
-            var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
+            SigningCredentials credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
 
-            var user = context.Users.FirstOrDefault(p => p.UserName == loginDto.User);
+            User user = context.Users.FirstOrDefault(p => p.UserName == loginDto.User);
 
-            var rols = rolRepository.GetRolsByUsers(user.Id);
+            List<string> rols = rolRepository.GetRolsByUsers(user.Id);
 
-            var claims = new Claim[] { };
+            Claim[] claims = new Claim[] { };
 
-            foreach (var rol in rols)
+            foreach (string rol in rols)
             {
                 claims = new Claim[]
                 {
@@ -75,7 +74,7 @@ namespace Mascotas.Api.DomainServices
                 };
             }
 
-            var token = new JwtSecurityToken(configuration["Jwt.Issuer"], configuration["Jwt:Issuer"], claims, expires: DateTime.Now.AddMinutes(120), signingCredentials: credentials);
+            JwtSecurityToken token = new JwtSecurityToken(configuration["Jwt.Issuer"], configuration["Jwt:Issuer"], claims, expires: DateTime.Now.AddMinutes(120), signingCredentials: credentials);
 
             return new JwtSecurityTokenHandler().WriteToken(token);
         }

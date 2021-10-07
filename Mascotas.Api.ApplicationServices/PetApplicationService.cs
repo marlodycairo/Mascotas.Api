@@ -13,12 +13,10 @@ namespace Mascotas.Api.ApplicationServices
     public class PetApplicationService : IPetApplication
     {
         private readonly IPetDomain petDomain;
-        private readonly IPetRepository petRepository;
 
-        public PetApplicationService(IPetDomain petDomain, IPetRepository petRepository)
+        public PetApplicationService(IPetDomain petDomain)
         {
             this.petDomain = petDomain;
-            this.petRepository = petRepository;
         }
 
         public async Task<ResponseEntityDto> AddPet(PetDto petDto)

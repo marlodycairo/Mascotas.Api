@@ -18,5 +18,7 @@ namespace Mascotas.Api.Infrastructure.Context
         public DbSet<Rol> Rols { get; set; }
         public DbSet<User> Users { get; set; }
         public DbSet<UserRol> UserRols { get; set; }
+        public DbSet<Veterinary> Veterinaries { get; set; }
+        public DbSet<Speciality> Specialities { get; set; }
     }
 }

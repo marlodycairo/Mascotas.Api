@@ -1,30 +1,22 @@
+using FluentValidation.AspNetCore;
 using Mascotas.Api.Application;
 using Mascotas.Api.ApplicationServices;
 using Mascotas.Api.Domain;
 using Mascotas.Api.Domain.Filters;
-using Mascotas.Api.Domain.Mappers;
 using Mascotas.Api.DomainServices;
 using Mascotas.Api.Infrastructure.Context;
 using Mascotas.Api.Infrastructure.Repositories;
 using Mascotas.Api.Infrastructure.Repositories.IRepositories;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
+using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using FluentValidation;
-using FluentValidation.AspNetCore;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.IdentityModel.Tokens;
 using System.Text;
 
 namespace Mascotas.Api
@@ -53,7 +45,7 @@ namespace Mascotas.Api
                 fv.RegisterValidatorsFromAssemblies(AppDomain.CurrentDomain.GetAssemblies());
             });
 
-            services.AddDbContext<ApplicationDbContext>(options => 
+            services.AddDbContext<ApplicationDbContext>(options =>
                     options.UseSqlServer(Configuration.GetConnectionString("ConnectionDefault")));
 
             services.AddScoped<IPetRepository, PetRepository>();
@@ -75,6 +67,10 @@ namespace Mascotas.Api
             services.AddScoped<IUserRepository, UserRepository>();
 
             services.AddScoped<IRolRepository, RolRepository>();
+
+            services.AddScoped<IVeterinaryRepository, VeterinaryRepository>();
+            services.AddScoped<IVeterinaryDomain, VeterinaryDomainServices>();
+            services.AddScoped<IVeterinaryApplication, VeterinaryApplicationService>();
 
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                     .AddJwtBearer(options =>
@@ -98,7 +94,7 @@ namespace Mascotas.Api
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Mascotas.Api", Version = "v1" });
 
-                var securityScheme = new OpenApiSecurityScheme
+                OpenApiSecurityScheme securityScheme = new OpenApiSecurityScheme
                 {
                     Name = "JWT Authentication",
                     Description = "Enter JWT Bearer token **_only_**",
@@ -115,7 +111,7 @@ namespace Mascotas.Api
 
                 c.AddSecurityDefinition(securityScheme.Reference.Id, securityScheme);
 
-                c.AddSecurityRequirement(new OpenApiSecurityRequirement 
+                c.AddSecurityRequirement(new OpenApiSecurityRequirement
                 {
                     {
                         securityScheme, new string[] { }

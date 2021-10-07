@@ -35,6 +35,9 @@ namespace Mascotas.Api.Domain.Mappers
 
             CreateMap<ResponseEntity, ResponseEntityDto>();
             CreateMap<ResponseEntityDto, ResponseEntity>();
+
+            CreateMap<Veterinary, VeterinaryDto>();
+            CreateMap<VeterinaryDto, Veterinary>();
         }
     }
 }

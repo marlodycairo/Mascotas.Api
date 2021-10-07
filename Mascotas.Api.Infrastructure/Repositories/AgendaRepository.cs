@@ -21,7 +21,7 @@ namespace Mascotas.Api.Infrastructure.Repositories
 
         public async Task<ResponseEntity> AddNewAgenda(Agenda agenda)
         {
-            var result = await AddNewAgenda(agenda);
+            var result = await ReturnMessage(agenda);
 
             return result;
         }
