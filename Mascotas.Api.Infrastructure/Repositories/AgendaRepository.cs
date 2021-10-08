@@ -5,6 +5,7 @@ using Mascotas.Api.Infrastructure.Responses;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -41,6 +42,10 @@ namespace Mascotas.Api.Infrastructure.Repositories
                     Message = ResponseMessage.RecordExist
                 };
             }
+            //var agendaSet = new Agenda() { Date = new DateTime(2021, 10, 22, 16, 30, 00), Comment = "Baño, corte de pelo y uñas.", OwnerId = 5, PetId = 10 };
+
+            //context.Set<Agenda>().Add(agendaSet);
+
             await context.Agendas.AddAsync(agenda);
 
             await context.SaveChangesAsync();
@@ -73,7 +78,7 @@ namespace Mascotas.Api.Infrastructure.Repositories
 
         public async Task<IEnumerable<Agenda>> GetAllAgendas()
         {
-            return await context.Agendas.ToListAsync();
+            return await context.Set<Agenda>().ToListAsync();
         }
 
         public async Task<ResponseEntity> UpdateAgenda(Agenda agenda)
@@ -85,18 +90,18 @@ namespace Mascotas.Api.Infrastructure.Repositories
 
         public async Task<ResponseEntity> ReturnMessageUpdateAgenda(Agenda agenda)
         {
-            var agendaExist = await context.Agendas.AnyAsync(p => p.Date == agenda.Date);
+            var agendaExist = await context.Agendas.AnyAsync(p => p.Id == agenda.Id);
 
             if (!agendaExist)
             {
                 return new ResponseEntity
                 {                    
                     Date = agenda.Date,
-                    
+
                     Message = ResponseMessage.RecordNotExist
                 };
             }
-            await context.Agendas.AddAsync(agenda);
+            context.Agendas.Update(agenda);
 
             await context.SaveChangesAsync();
 
