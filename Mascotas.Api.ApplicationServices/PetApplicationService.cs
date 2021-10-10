@@ -39,9 +39,9 @@ namespace Mascotas.Api.ApplicationServices
             return await petDomain.GetPetById(id);
         }
 
-        public async Task<ResponseEntityDto> UpdatePet(PetDto pet)
+        public async Task<ResponseEntityDto> UpdatePet(int id, PetDto pet)
         {
-            return await petDomain.UpdatePet(pet);
+            return await petDomain.UpdatePet(id, pet);
         }
     }
 }

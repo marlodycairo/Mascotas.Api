@@ -12,8 +12,8 @@ namespace Mascotas.Api.Infrastructure.Repositories.IRepositories
         Task<IEnumerable<Pet>> GetAllPets();
         Task<Pet> GetPetById(int id);
         Task DeletePet(int id);
-        Task<ResponseEntity> UpdatePet(Pet pet);
+        Task<ResponseEntity> UpdatePet(int id, Pet pet);
         Task<ResponseEntity> ReturnMessage(Pet pet);
-        Task<ResponseEntity> ReturnMessageUpdatePet(Pet pet);
+        Task<ResponseEntity> ReturnMessageUpdatePet(int id, Pet pet);
     }
 }

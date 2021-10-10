@@ -12,6 +12,6 @@ namespace Mascotas.Api.Domain
         Task<IEnumerable<PetDto>> GetAllPets();
         Task<PetDto> GetPetById(int id);
         Task DeletePet(int id);
-        Task<ResponseEntityDto> UpdatePet(PetDto pet);
+        Task<ResponseEntityDto> UpdatePet(int id, PetDto pet);
     }
 }

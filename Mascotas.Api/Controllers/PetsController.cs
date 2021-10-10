@@ -50,7 +50,7 @@ namespace Mascotas.Api.Controllers
         //[Authorize(Roles = "admin")]
         public async Task<ActionResult<ResponseEntityDto>> UpdatePet(int id, PetDto petDto)
         {
-            var pet = await petApplication.UpdatePet(petDto);
+            var pet = await petApplication.UpdatePet(id, petDto);
 
             return Ok(pet);
         }

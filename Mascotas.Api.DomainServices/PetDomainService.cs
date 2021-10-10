@@ -34,9 +34,7 @@ namespace Mascotas.Api.DomainServices
 
         public async Task DeletePet(int id)
         {
-            var petDelete = await petRepository.GetPetById(id);
-
-            mapper.Map<PetDto>(petDelete);
+            await petRepository.DeletePet(id);
         }
 
         public async Task<IEnumerable<PetDto>> GetAllPets()
@@ -57,11 +55,11 @@ namespace Mascotas.Api.DomainServices
             return pet;
         }
 
-        public async Task<ResponseEntityDto> UpdatePet(PetDto petDto)
+        public async Task<ResponseEntityDto> UpdatePet(int id, PetDto petDto)
         {
             var petMapper = mapper.Map<Pet>(petDto);
 
-            var returnPetResponse = await petRepository.ReturnMessageUpdatePet(petMapper);
+            var returnPetResponse = await petRepository.ReturnMessageUpdatePet(id, petMapper);
 
             var petResponse = mapper.Map<ResponseEntityDto>(returnPetResponse);
 

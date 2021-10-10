@@ -5,6 +5,7 @@ using Mascotas.Api.Infrastructure.Responses;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -30,15 +31,25 @@ namespace Mascotas.Api.Infrastructure.Repositories
 
         public async Task DeleteOwner(int id)
         {
-            var owner = await context.Owners.FindAsync(id);
+            //var owner = await context.Owners.FindAsync(id);
+            IQueryable<Owner> owner = context.Owners;
 
-            context.Remove(owner);
+            var oneOwner = await owner.Where(o => o.Id == id).FirstOrDefaultAsync();
+
+            context.Remove(oneOwner);
 
             await context.SaveChangesAsync();
+
+            owner.Load();
         }
 
         public async Task<IEnumerable<Owner>> GetAllOwners()
         {
+            //IQueryable<Owner> owners = context.Owners.Where(p => p.FirstName.StartsWith("m"));
+
+            //owners.Load();
+            //return await owners.ToListAsync();
+
             return await context.Owners.ToListAsync();
         }
 

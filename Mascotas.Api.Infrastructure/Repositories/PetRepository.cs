@@ -54,16 +54,17 @@ namespace Mascotas.Api.Infrastructure.Repositories
 
         public async Task DeletePet(int id)
         {
-            var petById = _context.Pets.FindAsync(id);
+            var pet = await _context.Pets.FirstOrDefaultAsync(p => p.Id == id);
 
-            _context.Remove(petById);
+            _context.Pets.Remove(pet);
 
             await _context.SaveChangesAsync();
         }
 
         public async Task<IEnumerable<Pet>> GetAllPets()
         {
-            return await _context.Pets.ToListAsync();
+
+            return await _context.Pets.OrderBy(p => p.Name).ToListAsync();
         }
 
         public async Task<Pet> GetPetById(int id)
@@ -73,16 +74,16 @@ namespace Mascotas.Api.Infrastructure.Repositories
             return findPetById;
         }
 
-        public async Task<ResponseEntity> UpdatePet(Pet pet)
+        public async Task<ResponseEntity> UpdatePet(int id, Pet pet)
         {
-            var result = await ReturnMessageUpdatePet(pet);
+            var result = await ReturnMessageUpdatePet(id, pet);
 
             return result;
         }
 
-        public async Task<ResponseEntity> ReturnMessageUpdatePet(Pet pet)
+        public async Task<ResponseEntity> ReturnMessageUpdatePet(int id, Pet pet)
         {
-            var petExist = await _context.Pets.AnyAsync(p => p.Id == pet.Id);
+            var petExist = await _context.Pets.AnyAsync(p => p.Id == id);
 
             if (!petExist)
             {
@@ -93,9 +94,12 @@ namespace Mascotas.Api.Infrastructure.Repositories
                     Message = ResponseMessage.RecordNotExist
                 };
             }
-            await _context.Pets.AddAsync(pet);
+            if (id == pet.Id)
+            {
+                _context.Update(pet);
 
-            await _context.SaveChangesAsync();
+                await _context.SaveChangesAsync();
+            }
 
             return new ResponseEntity
             {
