@@ -61,7 +61,7 @@ namespace Mascotas.Api.DomainServices
         {
             var petMapper = mapper.Map<Pet>(petDto);
 
-            var returnPetResponse = await petRepository.ReturnMessage(petMapper);
+            var returnPetResponse = await petRepository.ReturnMessageUpdatePet(petMapper);
 
             var petResponse = mapper.Map<ResponseEntityDto>(returnPetResponse);
 

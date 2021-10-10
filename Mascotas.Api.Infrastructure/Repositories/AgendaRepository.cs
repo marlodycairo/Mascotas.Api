@@ -78,7 +78,11 @@ namespace Mascotas.Api.Infrastructure.Repositories
 
         public async Task<IEnumerable<Agenda>> GetAllAgendas()
         {
-            return await context.Set<Agenda>().ToListAsync();
+            //return await context.Set<Agenda>().ToListAsync();
+            //IQueryable<Agenda> agendas = context.Agendas;
+            //return agendas.ToList();
+
+            return await context.Agendas.ToListAsync();
         }
 
         public async Task<ResponseEntity> UpdateAgenda(Agenda agenda)

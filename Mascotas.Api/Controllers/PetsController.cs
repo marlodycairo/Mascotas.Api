@@ -27,5 +27,39 @@ namespace Mascotas.Api.Controllers
 
             return petResult;
         }
+
+        [HttpGet]
+        //[Authorize(Roles = "admin")]
+        public async Task<IEnumerable<PetDto>> GetPets()
+        {
+            var pets = await petApplication.GetAllPets();
+
+            return pets.ToList();
+        }
+
+        [HttpGet("{id}")]
+        //[Authorize(Roles = "admin")]
+        public async Task<ActionResult<PetDto>> GetPet(int id)
+        {
+            var pet = await petApplication.GetPetById(id);
+
+            return Ok(pet);
+        }
+
+        [HttpPut("{id}")]
+        //[Authorize(Roles = "admin")]
+        public async Task<ActionResult<ResponseEntityDto>> UpdatePet(int id, PetDto petDto)
+        {
+            var pet = await petApplication.UpdatePet(petDto);
+
+            return Ok(pet);
+        }
+
+        [HttpDelete("{id}")]
+        //[Authorize(Roles = "admin")]
+        public async Task DeletePet(int id)
+        {
+            await petApplication.DeletePet(id);
+        }
     }
 }

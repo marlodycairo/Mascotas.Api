@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using System.Linq;
 
 namespace Mascotas.Api.Infrastructure.Repositories
 {
@@ -68,9 +69,15 @@ namespace Mascotas.Api.Infrastructure.Repositories
                     Message = ResponseMessage.RecordExist
                 };
             }
-            await context.Veterinaries.AddAsync(veterinary);
-            
+            IQueryable<Veterinary> veterinaries = context.Veterinaries;
+
+            var newVeterinary = context.Veterinaries.AddAsync(veterinary);
+
             await context.SaveChangesAsync();
+
+            var lstVeterinaries = new List<Veterinary>();
+
+            await veterinaries.ForEachAsync(v => lstVeterinaries.ToList());
 
             return new ResponseEntity
             {

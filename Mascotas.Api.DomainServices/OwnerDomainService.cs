@@ -29,5 +29,39 @@ namespace Mascotas.Api.DomainServices
 
             return owner;
         }
+
+        public async Task DeleteOwner(int id)
+        {
+            await ownerRepository.DeleteOwner(id);
+        }
+
+        public async Task<IEnumerable<OwnerDto>> GetAllOwner()
+        {
+            var owner = await ownerRepository.GetAllOwners();
+
+            var owners = mapper.Map<IEnumerable<OwnerDto>>(owner);
+
+            return owners;
+        }
+
+        public async Task<OwnerDto> GetOwnerById(int id)
+        {
+            var owner = await ownerRepository.GetOwnerById(id);
+
+            var ownerById = mapper.Map<OwnerDto>(owner);
+
+            return ownerById;
+        }
+
+        public async Task<ResponseEntityDto> UpdateOwner(OwnerDto ownerDto)
+        {
+            var owner = mapper.Map<Owner>(ownerDto);
+
+            var returnOwnerResponse = await ownerRepository.ReturnMessageUpdateOwner(owner);
+
+            var ownerResponse = mapper.Map<ResponseEntityDto>(returnOwnerResponse);
+
+            return ownerResponse;
+        }
     }
 }

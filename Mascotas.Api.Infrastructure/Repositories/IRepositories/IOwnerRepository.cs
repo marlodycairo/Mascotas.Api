@@ -1,7 +1,5 @@
 ﻿using Mascotas.Api.Infrastructure.Entities;
-using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Mascotas.Api.Infrastructure.Repositories.IRepositories
@@ -9,5 +7,11 @@ namespace Mascotas.Api.Infrastructure.Repositories.IRepositories
     public interface IOwnerRepository
     {
         Task<Owner> AddOwner(Owner owner);
+        Task<IEnumerable<Owner>> GetAllOwners();
+        Task<Owner> GetOwnerById(int id);
+        Task DeleteOwner(int id);
+        Task<ResponseEntity> UpdateOwner(Owner owner);
+        Task<ResponseEntity> ReturnMessage(Owner owner);
+        Task<ResponseEntity> ReturnMessageUpdateOwner(Owner owner);
     }
 }
