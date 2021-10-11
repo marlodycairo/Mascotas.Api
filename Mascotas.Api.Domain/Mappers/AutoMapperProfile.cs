@@ -49,8 +49,11 @@ namespace Mascotas.Api.Domain.Mappers
             CreateMap<VeterinaryDto, Veterinary>()
                 .ForMember(dest => dest.Speciality, opt => opt.MapFrom(src => src.SpecialityDto));
 
-            CreateMap<Speciality, SpecialityDto>();
-            CreateMap<SpecialityDto, Speciality>();
+            CreateMap<Speciality, SpecialityDto>()
+                .ForMember(dest => dest.VeterinaryDto, opt => opt.MapFrom(src => src.Veterinary));
+
+            CreateMap<SpecialityDto, Speciality>()
+                .ForMember(dest => dest.Veterinary, opt => opt.MapFrom(src => src.VeterinaryDto));
         }
     }
 }

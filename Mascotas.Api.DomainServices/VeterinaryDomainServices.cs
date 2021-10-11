@@ -59,12 +59,20 @@ namespace Mascotas.Api.DomainServices
 
             if (filter.FullName != null)
             {
-                allVeterinaries = allVeterinaries.Where(v => v.FullName == filter.FullName).OrderBy(v => v.IDCard);
+                allVeterinaries = allVeterinaries.Where(v => v.FullName.StartsWith(filter.FullName) == filter.FullName.StartsWith(filter.FullName)).OrderBy(p => p.FullName).ToList();
             }
 
             if (filter.Speciality !=0)
             {
-                allVeterinaries = allVeterinaries.Where(v => v.SpecialityId == filter.Speciality);
+                //List<VeterinaryDto> vets = allVeterinaries.ToList();
+
+                //var resultVets = vets.GroupBy(p => p.SpecialityId).OrderBy(p => p.Key);
+
+                //foreach (var item in resultVets)
+                //{
+                //    var vetGroupBy = item.Key;
+                //}
+                allVeterinaries = allVeterinaries.Where(v => v.SpecialityId == filter.Speciality).OrderBy(p => p.FullName);
             }
 
             return allVeterinaries;
