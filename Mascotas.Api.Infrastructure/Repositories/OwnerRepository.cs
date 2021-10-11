@@ -50,14 +50,19 @@ namespace Mascotas.Api.Infrastructure.Repositories
             //owners.Load();
             //return await owners.ToListAsync();
 
-            return await context.Owners.ToListAsync();
+            return await context.Owners
+                .Include(p => p.Pets)
+                .ToListAsync();
         }
 
         public async Task<Owner> GetOwnerById(int id)
         {
-            var owner = await context.Owners.FirstOrDefaultAsync(p => p.Id == id);
+            //var owner = await context.Owners.FirstOrDefaultAsync(p => p.Id == id);
+            //return owner;
 
-            return owner;
+            IQueryable<Owner> owner = context.Owners;
+
+            return await owner.SingleAsync(p => p.Id == id);
         }
 
         public async Task<ResponseEntity> ReturnMessage(Owner owner)

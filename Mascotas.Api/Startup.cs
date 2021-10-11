@@ -18,6 +18,7 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using System;
 using System.Text;
+using System.Text.Json.Serialization;
 
 namespace Mascotas.Api
 {
@@ -35,7 +36,8 @@ namespace Mascotas.Api
         {
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
-            services.AddControllers();
+            services.AddControllers().AddJsonOptions(p =>
+                p.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.Preserve);
 
             services.AddMvc(options =>
             {

@@ -1,5 +1,6 @@
 ﻿using Mascotas.Api.Application;
 using Mascotas.Api.Domain.Models;
+using Mascotas.Api.Domain.QueryFiltersModels;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -31,9 +32,9 @@ namespace Mascotas.Api.Controllers
 
         [HttpGet]
         //[Authorize(Roles = "admin")]
-        public async Task<IEnumerable<VeterinaryDto>> GetAllVeterinaries()
+        public async Task<IEnumerable<VeterinaryDto>> GetAllVeterinaries([FromQuery] VeterinaryQueryFilterModel filter)
         {
-            var veterinaries = await veterinary.GetAllVeterinary();
+            var veterinaries = await veterinary.GetAllVeterinary(filter);
 
             return veterinaries.ToList();
         }

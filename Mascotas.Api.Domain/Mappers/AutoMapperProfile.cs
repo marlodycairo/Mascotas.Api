@@ -13,16 +13,23 @@ namespace Mascotas.Api.Domain.Mappers
         {
             CreateMap<Pet, PetDto>()
                 .ForMember(dest => dest.OwnerDto, opt => opt.MapFrom(src => src.Owner));
-            CreateMap<PetDto, Pet>();
+
+            CreateMap<PetDto, Pet>()
+                .ForMember(dest => dest.Owner, opt => opt.MapFrom(src => src.OwnerDto));
 
             CreateMap<Owner, OwnerDto>()
                 .ForMember(dest => dest.PetDtos, opt => opt.MapFrom(src => src.Pets));
-            CreateMap<OwnerDto, Owner>();
+
+            CreateMap<OwnerDto, Owner>()
+                .ForMember(dest => dest.Pets, opt => opt.MapFrom(src => src.PetDtos));
 
             CreateMap<Agenda, AgendaDto>()
                 .ForMember(dest => dest.OwnerDto, opt => opt.MapFrom(src => src.Owner))
                 .ForMember(dest => dest.PetDto, opt => opt.MapFrom(src => src.Pet));
-            CreateMap<AgendaDto, Agenda>();
+
+            CreateMap<AgendaDto, Agenda>()
+                .ForMember(dest => dest.Owner, opt => opt.MapFrom(src => src.OwnerDto))
+                .ForMember(dest => dest.Pet, opt => opt.MapFrom(src => src.PetDto));
 
             CreateMap<Rol, RolDto>();
             CreateMap<RolDto, Rol>();
@@ -36,8 +43,14 @@ namespace Mascotas.Api.Domain.Mappers
             CreateMap<ResponseEntity, ResponseEntityDto>();
             CreateMap<ResponseEntityDto, ResponseEntity>();
 
-            CreateMap<Veterinary, VeterinaryDto>();
-            CreateMap<VeterinaryDto, Veterinary>();
+            CreateMap<Veterinary, VeterinaryDto>()
+                .ForMember(dest => dest.SpecialityDto, opt => opt.MapFrom(src => src.Speciality));
+
+            CreateMap<VeterinaryDto, Veterinary>()
+                .ForMember(dest => dest.Speciality, opt => opt.MapFrom(src => src.SpecialityDto));
+
+            CreateMap<Speciality, SpecialityDto>();
+            CreateMap<SpecialityDto, Speciality>();
         }
     }
 }

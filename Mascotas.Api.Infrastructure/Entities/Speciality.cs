@@ -8,5 +8,6 @@ namespace Mascotas.Api.Infrastructure.Entities
     {
         public int Id { get; set; }
         public string SpecialityName { get; set; }
+        public Veterinary Veterinary { get; set; }
     }
 }

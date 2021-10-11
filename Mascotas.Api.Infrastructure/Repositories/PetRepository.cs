@@ -63,15 +63,18 @@ namespace Mascotas.Api.Infrastructure.Repositories
 
         public async Task<IEnumerable<Pet>> GetAllPets()
         {
-
             return await _context.Pets.OrderBy(p => p.Name).ToListAsync();
         }
 
         public async Task<Pet> GetPetById(int id)
         {
-            var findPetById = await _context.Pets.FirstOrDefaultAsync(p => p.Id == id);
-
-            return findPetById;
+            //var findPetById = await _context.Pets.FirstOrDefaultAsync(p => p.Id == id);
+            var pets = _context.Pets
+                .Include(p => p.Owner)
+                .Where(p => p.Id == id);
+            var queryString = pets.ToQueryString();
+            var resultPet = await pets.FirstOrDefaultAsync();
+            return resultPet;
         }
 
         public async Task<ResponseEntity> UpdatePet(int id, Pet pet)

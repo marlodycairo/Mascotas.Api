@@ -1,10 +1,12 @@
 ﻿using AutoMapper;
 using Mascotas.Api.Domain;
 using Mascotas.Api.Domain.Models;
+using Mascotas.Api.Domain.QueryFiltersModels;
 using Mascotas.Api.Infrastructure.Entities;
 using Mascotas.Api.Infrastructure.Repositories.IRepositories;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -39,11 +41,31 @@ namespace Mascotas.Api.DomainServices
             mapper.Map<VeterinaryDto>(veterinaryDelete);
         }
 
-        public async Task<IEnumerable<VeterinaryDto>> GetAllVeterinary()
+        public async Task<IEnumerable<VeterinaryDto>> GetAllVeterinary(VeterinaryQueryFilterModel filter)
         {
             var veterinaries = await veterinaryRepository.GetAllVeterinary();
 
             var allVeterinaries = mapper.Map<IEnumerable<VeterinaryDto>>(veterinaries);
+
+            if (filter.IdVeterinary != 0)
+            {
+                allVeterinaries = allVeterinaries.Where(v => v.Id == filter.IdVeterinary);
+            }
+
+            if (filter.IDCard != 0)
+            {
+                allVeterinaries = allVeterinaries.Where(v => v.IDCard == filter.IDCard);
+            }
+
+            if (filter.FullName != null)
+            {
+                allVeterinaries = allVeterinaries.Where(v => v.FullName == filter.FullName).OrderBy(v => v.IDCard);
+            }
+
+            if (filter.Speciality !=0)
+            {
+                allVeterinaries = allVeterinaries.Where(v => v.SpecialityId == filter.Speciality);
+            }
 
             return allVeterinaries;
         }

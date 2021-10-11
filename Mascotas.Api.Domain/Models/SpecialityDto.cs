@@ -8,5 +8,6 @@ namespace Mascotas.Api.Domain.Models
     {
         public int Id { get; set; }
         public string SpecialityName { get; set; }
+        public VeterinaryDto VeterinaryDto { get; set; }
     }
 }

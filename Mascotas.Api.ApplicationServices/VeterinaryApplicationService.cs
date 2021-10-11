@@ -1,6 +1,7 @@
 ﻿using Mascotas.Api.Application;
 using Mascotas.Api.Domain;
 using Mascotas.Api.Domain.Models;
+using Mascotas.Api.Domain.QueryFiltersModels;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -27,9 +28,9 @@ namespace Mascotas.Api.ApplicationServices
             await veterinaryDomain.DeleteVeterinary(id);
         }
 
-        public async Task<IEnumerable<VeterinaryDto>> GetAllVeterinary()
+        public async Task<IEnumerable<VeterinaryDto>> GetAllVeterinary(VeterinaryQueryFilterModel filter)
         {
-            return await veterinaryDomain.GetAllVeterinary();
+            return await veterinaryDomain.GetAllVeterinary(filter);
         }
 
         public async Task<VeterinaryDto> GetVeterinaryById(int id)
