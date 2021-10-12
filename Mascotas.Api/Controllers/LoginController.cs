@@ -38,5 +38,11 @@ namespace Mascotas.Api.Controllers
 
             return response;
         }
+
+        [HttpGet]
+        public void Logout()
+        {
+
+        }
     }
 }
