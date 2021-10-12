@@ -20,5 +20,6 @@ namespace Mascotas.Api.Infrastructure.Context
         public DbSet<UserRol> UserRols { get; set; }
         public DbSet<Veterinary> Veterinaries { get; set; }
         public DbSet<Speciality> Specialities { get; set; }
+        public DbSet<History> Histories { get; set; }
     }
 }
