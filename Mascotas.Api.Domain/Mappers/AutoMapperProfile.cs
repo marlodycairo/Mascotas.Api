@@ -54,6 +54,18 @@ namespace Mascotas.Api.Domain.Mappers
 
             CreateMap<SpecialityDto, Speciality>()
                 .ForMember(dest => dest.Veterinary, opt => opt.MapFrom(src => src.VeterinaryDto));
+
+            CreateMap<History, HistoryDto>()
+                .ForMember(dest => dest.AgendaDto, opt => opt.MapFrom(src => src.Agenda))
+                .ForMember(dest => dest.OwnerDto, opt => opt.MapFrom(src => src.Owner))
+                .ForMember(dest => dest.PetDto, opt => opt.MapFrom(src => src.Pet))
+                .ForMember(dest => dest.VeterinaryDto, opt => opt.MapFrom(src => src.Veterinary));
+
+            CreateMap<HistoryDto, History>()
+                .ForMember(dest => dest.Agenda, opt => opt.MapFrom(src => src.AgendaDto))
+                .ForMember(dest => dest.Owner, opt => opt.MapFrom(src => src.OwnerDto))
+                .ForMember(dest => dest.Pet, opt => opt.MapFrom(src => src.PetDto))
+                .ForMember(dest => dest.Veterinary, opt => opt.MapFrom(src => src.VeterinaryDto));
         }
     }
 }

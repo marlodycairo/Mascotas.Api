@@ -10,5 +10,6 @@ namespace Mascotas.Api.Infrastructure.Responses
         public const string RecordNotExist = "The record don't exists.";
         public const string RecordSuccessfullSaved = "The record was successfully saved.";
         public const string RecordUpdated = "The record was successfully updated";
+        public const string RecordIsNull = "Empty spaces are not allowed, you must enter a record.";
     }
 }

@@ -74,6 +74,10 @@ namespace Mascotas.Api
             services.AddScoped<IVeterinaryDomain, VeterinaryDomainServices>();
             services.AddScoped<IVeterinaryApplication, VeterinaryApplicationService>();
 
+            services.AddScoped<IHistoryRepository, HistoryRepository>();
+            services.AddScoped<IHistoryDomain, HistoryDomainService>();
+            services.AddScoped<IHistoryApplication, HistoryApplicationService>();
+
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                     .AddJwtBearer(options =>
                     {

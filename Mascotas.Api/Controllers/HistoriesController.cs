@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Mascotas.Api.Application;
+using Mascotas.Api.Domain.Models;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -11,9 +13,19 @@ namespace Mascotas.Api.Controllers
     [ApiController]
     public class HistoriesController : ControllerBase
     {
-        public HistoriesController()
-        {
+        private readonly IHistoryApplication historyApplication;
 
+        public HistoriesController(IHistoryApplication historyApplication)
+        {
+            this.historyApplication = historyApplication;
+        }
+
+        [HttpPost]
+        public async Task<ActionResult<ResponseEntityDto>> AddNewHistory(HistoryDto historyDto)
+        {
+            var history = await historyApplication.CreateNewHistory(historyDto);
+
+            return Ok(history);
         }
     }
 }

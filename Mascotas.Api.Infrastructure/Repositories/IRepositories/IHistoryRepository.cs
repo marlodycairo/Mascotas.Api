@@ -10,8 +10,8 @@ namespace Mascotas.Api.Infrastructure.Repositories.IRepositories
     {
         Task<IEnumerable<History>> GetAllHistories();
         Task<History> GetHistoryById(int id);
-        Task<History> UpdateHistory(int id, History history);
-        Task<History> CreateNewHistory(History history);
+        Task<ResponseEntity> UpdateHistory(int id, History history);
+        Task<ResponseEntity> CreateNewHistory(History history);
         Task<History> SearchHistory();
     }
 }

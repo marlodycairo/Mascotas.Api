@@ -10,8 +10,8 @@ namespace Mascotas.Api.Domain
     {
         Task<IEnumerable<HistoryDto>> GetAllHistories();
         Task<HistoryDto> GetHistoryById(int id);
-        Task<HistoryDto> UpdateHistory(int id, HistoryDto history);
-        Task<HistoryDto> CreateNewHistory(HistoryDto history);
+        Task<ResponseEntityDto> UpdateHistory(int id, HistoryDto history);
+        Task<ResponseEntityDto> CreateNewHistory(HistoryDto history);
         Task<HistoryDto> SearchHistory();
     }
 }

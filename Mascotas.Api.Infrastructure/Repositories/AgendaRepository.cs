@@ -66,6 +66,8 @@ namespace Mascotas.Api.Infrastructure.Repositories
 
             context.Remove(agenda);
 
+            context.ChangeTracker.DetectChanges();
+
             await context.SaveChangesAsync();
         }
 
@@ -105,7 +107,9 @@ namespace Mascotas.Api.Infrastructure.Repositories
                     Message = ResponseMessage.RecordNotExist
                 };
             }
-            context.Agendas.Update(agenda);
+            context.Entry(agenda).State = EntityState.Modified;
+
+            context.ChangeTracker.DetectChanges();
 
             await context.SaveChangesAsync();
 
