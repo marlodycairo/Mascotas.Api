@@ -11,9 +11,9 @@ namespace Mascotas.Api.Infrastructure.Repositories.IRepositories
         Task<ResponseEntity> AddNewVeterinary(Veterinary veterinary);
         Task<IEnumerable<Veterinary>> GetAllVeterinary();
         Task<Veterinary> GetVeterinaryById(int id);
-        Task<ResponseEntity> UpdateVeterinary(Veterinary veterinary);
+        Task<ResponseEntity> UpdateVeterinary(int id, Veterinary veterinary);
         Task DeleteVeterinary(int id);
         Task<ResponseEntity> ReturnMessage(Veterinary veterinary);
-        Task<ResponseEntity> ReturnMessageUpdateVeterinary(Veterinary veterinary);
+        Task<ResponseEntity> ReturnMessageUpdateVeterinary(int id, Veterinary veterinary);
     }
 }

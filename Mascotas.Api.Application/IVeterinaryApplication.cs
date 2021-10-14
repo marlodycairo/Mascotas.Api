@@ -12,7 +12,7 @@ namespace Mascotas.Api.Application
         Task<ResponseEntityDto> AddNewVeterinary(VeterinaryDto veterinary);
         Task<IEnumerable<VeterinaryDto>> GetAllVeterinary(VeterinaryQueryFilterModel filter);
         Task<VeterinaryDto> GetVeterinaryById(int id);
-        Task<ResponseEntityDto> UpdateVeterinary(VeterinaryDto veterinary);
+        Task<ResponseEntityDto> UpdateVeterinary(int id, VeterinaryDto veterinary);
         Task DeleteVeterinary(int id);
     }
 }

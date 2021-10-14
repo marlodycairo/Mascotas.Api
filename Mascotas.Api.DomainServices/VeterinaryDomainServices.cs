@@ -36,9 +36,7 @@ namespace Mascotas.Api.DomainServices
 
         public async Task DeleteVeterinary(int id)
         {
-            var veterinaryDelete = await veterinaryRepository.GetVeterinaryById(id);
-
-            mapper.Map<VeterinaryDto>(veterinaryDelete);
+            await veterinaryRepository.DeleteVeterinary(id);
         }
 
         public async Task<IEnumerable<VeterinaryDto>> GetAllVeterinary(VeterinaryQueryFilterModel filter)
@@ -87,11 +85,11 @@ namespace Mascotas.Api.DomainServices
             return veterinary;
         }
 
-        public async Task<ResponseEntityDto> UpdateVeterinary(VeterinaryDto veterinary)
+        public async Task<ResponseEntityDto> UpdateVeterinary(int id, VeterinaryDto veterinary)
         {
             var veterinaryMapper = mapper.Map<Veterinary>(veterinary);
 
-            var returnVeterinaryResponse = await veterinaryRepository.ReturnMessage(veterinaryMapper);
+            var returnVeterinaryResponse = await veterinaryRepository.ReturnMessageUpdateVeterinary(id, veterinaryMapper);
 
             var veterinaryResponse = mapper.Map<ResponseEntityDto>(returnVeterinaryResponse);
 

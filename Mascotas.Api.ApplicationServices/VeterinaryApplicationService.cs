@@ -38,9 +38,9 @@ namespace Mascotas.Api.ApplicationServices
             return await veterinaryDomain.GetVeterinaryById(id);
         }
 
-        public async Task<ResponseEntityDto> UpdateVeterinary(VeterinaryDto veterinary)
+        public async Task<ResponseEntityDto> UpdateVeterinary(int id, VeterinaryDto veterinary)
         {
-            return await veterinaryDomain.UpdateVeterinary(veterinary); 
+            return await veterinaryDomain.UpdateVeterinary(id, veterinary); 
         }
     }
 }

@@ -36,10 +36,20 @@ namespace Mascotas.Api.Infrastructure.Repositories
                 return new ResponseEntity 
                 {
                     Id = pet.Id,
+
                     PropertyName = pet.Name,
+
                     Message = ResponseMessage.RecordExist
                 };
             }
+            else if (pet == null)
+            {
+                return new ResponseEntity
+                {
+                    Message = ResponseMessage.RecordIsNull
+                };
+            }
+
             await _context.Pets.AddAsync(pet);
 
             await _context.SaveChangesAsync();
@@ -47,14 +57,16 @@ namespace Mascotas.Api.Infrastructure.Repositories
             return new ResponseEntity
             {
                 Id = pet.Id,
+
                 PropertyName = pet.Name,
+
                 Message = ResponseMessage.RecordSuccessfullSaved
             };
         }
 
         public async Task DeletePet(int id)
         {
-            var pet = await _context.Pets.FirstOrDefaultAsync(p => p.Id == id);
+            var pet = await _context.Pets.SingleAsync(p => p.Id == id);
 
             _context.Pets.Remove(pet);
 
@@ -70,11 +82,14 @@ namespace Mascotas.Api.Infrastructure.Repositories
         {
             //var findPetById = await _context.Pets.FirstOrDefaultAsync(p => p.Id == id);
             var pets = _context.Pets
+                
                 .Include(p => p.Owner)
+            
                 .Where(p => p.Id == id);
-            var queryString = pets.ToQueryString();
-            var resultPet = await pets.FirstOrDefaultAsync();
-            return resultPet;
+
+            //var queryString = pets.ToQueryString();
+
+            return await pets.FirstOrDefaultAsync();
         }
 
         public async Task<ResponseEntity> UpdatePet(int id, Pet pet)
@@ -93,7 +108,9 @@ namespace Mascotas.Api.Infrastructure.Repositories
                 return new ResponseEntity
                 {
                     Id = pet.Id,
+
                     PropertyName = pet.Name,
+
                     Message = ResponseMessage.RecordNotExist
                 };
             }
@@ -107,7 +124,9 @@ namespace Mascotas.Api.Infrastructure.Repositories
             return new ResponseEntity
             {
                 Id = pet.Id,
+
                 PropertyName = pet.Name,
+
                 Message = ResponseMessage.RecordUpdated
             };
         }

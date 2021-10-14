@@ -28,9 +28,9 @@ namespace Mascotas.Api.Infrastructure.Repositories
 
         public async Task DeleteVeterinary(int id)
         {
-            var veterinayById = context.Veterinaries.FindAsync(id);
+            var veterinary = await context.Veterinaries.FirstAsync(p => p.Id == id);
 
-            context.Remove(veterinayById);
+            context.Remove(veterinary);
 
             await context.SaveChangesAsync();
         }
@@ -44,14 +44,18 @@ namespace Mascotas.Api.Infrastructure.Repositories
 
         public async Task<IEnumerable<Veterinary>> GetAllVeterinary()
         {
-            return await context.Veterinaries
+            var veterinaries =  await context.Veterinaries
+
                 .Include(p => p.Speciality)
+                
                 .ToListAsync();
+
+            return veterinaries;
         }
 
-        public async Task<ResponseEntity> UpdateVeterinary(Veterinary veterinary)
+        public async Task<ResponseEntity> UpdateVeterinary(int id, Veterinary veterinary)
         {
-            var result = await ReturnMessageUpdateVeterinary(veterinary);
+            var result = await ReturnMessageUpdateVeterinary(id, veterinary);
 
             return result;
         }
@@ -69,15 +73,17 @@ namespace Mascotas.Api.Infrastructure.Repositories
                     Message = ResponseMessage.RecordExist
                 };
             }
-            IQueryable<Veterinary> veterinaries = context.Veterinaries;
+            else if (veterinary == null)
+            {
+                return new ResponseEntity
+                {
+                    Message = ResponseMessage.RecordIsNull
+                };
+            }
 
             var newVeterinary = context.Veterinaries.AddAsync(veterinary);
 
             await context.SaveChangesAsync();
-
-            var lstVeterinaries = new List<Veterinary>();
-
-            await veterinaries.ForEachAsync(v => lstVeterinaries.ToList());
 
             return new ResponseEntity
             {
@@ -87,7 +93,7 @@ namespace Mascotas.Api.Infrastructure.Repositories
             };
         }
 
-        public async Task<ResponseEntity> ReturnMessageUpdateVeterinary(Veterinary veterinary)
+        public async Task<ResponseEntity> ReturnMessageUpdateVeterinary(int id, Veterinary veterinary)
         {
             var veterinaryExist = await context.Veterinaries.AnyAsync(p => p.Id == veterinary.Id);
 
@@ -100,9 +106,13 @@ namespace Mascotas.Api.Infrastructure.Repositories
                     Message = ResponseMessage.RecordNotExist
                 };
             }
-            await context.Veterinaries.AddAsync(veterinary);
 
-            await context.SaveChangesAsync();
+            if (id == veterinary.Id)
+            {
+                context.Veterinaries.Update(veterinary);
+
+                await context.SaveChangesAsync();
+            }
 
             return new ResponseEntity
             {
