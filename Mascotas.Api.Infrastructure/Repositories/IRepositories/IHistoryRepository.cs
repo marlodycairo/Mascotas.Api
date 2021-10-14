@@ -12,6 +12,5 @@ namespace Mascotas.Api.Infrastructure.Repositories.IRepositories
         Task<History> GetHistoryById(int id);
         Task<ResponseEntity> UpdateHistory(int id, History history);
         Task<ResponseEntity> CreateNewHistory(History history);
-        Task<History> SearchHistory();
     }
 }

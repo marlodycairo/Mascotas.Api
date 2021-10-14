@@ -12,6 +12,5 @@ namespace Mascotas.Api.Application
         Task<HistoryDto> GetHistoryById(int id);
         Task<ResponseEntityDto> UpdateHistory(int id, HistoryDto history);
         Task<ResponseEntityDto> CreateNewHistory(HistoryDto history);
-        Task<HistoryDto> SearchHistory();
     }
 }

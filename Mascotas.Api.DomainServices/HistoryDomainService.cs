@@ -50,14 +50,15 @@ namespace Mascotas.Api.DomainServices
             return historyById;
         }
 
-        public Task<HistoryDto> SearchHistory()
+        public async Task<ResponseEntityDto> UpdateHistory(int id, HistoryDto historyDto)
         {
-            throw new NotImplementedException();
-        }
+            var historyMapper = mapper.Map<History>(historyDto);
 
-        public Task<ResponseEntityDto> UpdateHistory(int id, HistoryDto history)
-        {
-            throw new NotImplementedException();
+            var history = await historyRepository.UpdateHistory(id, historyMapper);
+
+            var response = mapper.Map<ResponseEntityDto>(history);
+
+            return response;
         }
     }
 }

@@ -61,14 +61,27 @@ namespace Mascotas.Api.Infrastructure.Repositories
             return await context.Histories.FirstOrDefaultAsync(p => p.Id == id);
         }
 
-        public Task<History> SearchHistory()
+        public async Task<ResponseEntity> UpdateHistory(int id, History history)
         {
-            throw new NotImplementedException();
+            var result = await UpdatedHistory(id, history);
+
+            return result;
         }
 
-        public Task<ResponseEntity> UpdateHistory(int id, History history)
+        public async Task<ResponseEntity> UpdatedHistory(int id, History history)
         {
-            throw new NotImplementedException();
+            var historyExist = await context.Histories.AnyAsync(p => p.Id == id);
+
+            if (!historyExist)
+            {
+                return new ResponseEntity { Message = ResponseMessage.RecordNotExist };
+            }
+
+            context.Histories.Update(history);
+
+            await context.SaveChangesAsync();
+
+            return new ResponseEntity { Message = ResponseMessage.RecordUpdated };
         }
     }
 }

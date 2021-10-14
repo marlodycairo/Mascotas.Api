@@ -43,5 +43,13 @@ namespace Mascotas.Api.Controllers
 
             return Ok(history);
         }
+
+        [HttpPut]
+        public async Task<ActionResult<ResponseEntityDto>> UpdateHistory(int id, HistoryDto historyDto)
+        {
+            var history = await historyApplication.UpdateHistory(id, historyDto);
+
+            return Ok(history);
+        }
     }
 }

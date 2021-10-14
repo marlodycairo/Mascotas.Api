@@ -32,14 +32,9 @@ namespace Mascotas.Api.ApplicationServices
             return await historyDomain.GetHistoryById(id);
         }
 
-        public Task<HistoryDto> SearchHistory()
+        public async Task<ResponseEntityDto> UpdateHistory(int id, HistoryDto history)
         {
-            throw new NotImplementedException();
-        }
-
-        public Task<ResponseEntityDto> UpdateHistory(int id, HistoryDto history)
-        {
-            throw new NotImplementedException();
+            return await historyDomain.UpdateHistory(id, history);
         }
     }
 }
