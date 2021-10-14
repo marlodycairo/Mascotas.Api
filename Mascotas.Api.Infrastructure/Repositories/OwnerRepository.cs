@@ -20,46 +20,38 @@ namespace Mascotas.Api.Infrastructure.Repositories
             this.context = context;
         }
 
-        public async Task<Owner> AddOwner(Owner owner)
+        public async Task<ResponseEntity> AddOwner(Owner owner)
         {
-            await context.Owners.AddAsync(owner);
+            var newOwner = await ReturnMessage(owner);
 
-            await context.SaveChangesAsync();
-
-            return owner;
+            return newOwner;
         }
 
         public async Task DeleteOwner(int id)
         {
-            //var owner = await context.Owners.FindAsync(id);
-            IQueryable<Owner> owner = context.Owners;
+            var ownerExist = await context.Owners.AnyAsync(p => p.Id == id);
 
-            var oneOwner = await owner.Where(o => o.Id == id).FirstOrDefaultAsync();
+            if (ownerExist)
+            {
+                var owner = await context.Owners.FindAsync(id);
 
-            context.Remove(oneOwner);
+                context.Owners.Remove(owner);
 
-            await context.SaveChangesAsync();
-
-            owner.Load();
+                await context.SaveChangesAsync();
+            }
         }
 
         public async Task<IEnumerable<Owner>> GetAllOwners()
         {
-            //IQueryable<Owner> owners = context.Owners.Where(p => p.FirstName.StartsWith("m"));
-
-            //owners.Load();
-            //return await owners.ToListAsync();
-
             return await context.Owners
+
                 .Include(p => p.Pets)
+
                 .ToListAsync();
         }
 
         public async Task<Owner> GetOwnerById(int id)
         {
-            //var owner = await context.Owners.FirstOrDefaultAsync(p => p.Id == id);
-            //return owner;
-
             IQueryable<Owner> owner = context.Owners;
 
             return await owner.SingleAsync(p => p.Id == id);
@@ -74,10 +66,20 @@ namespace Mascotas.Api.Infrastructure.Repositories
                 return new ResponseEntity
                 {
                     Id = owner.Id,
+
                     PropertyName = owner.FirstName + " " + owner.LastName,
+
                     Message = ResponseMessage.RecordExist
                 };
             }
+            else if (owner == null)
+            {
+                return new ResponseEntity
+                {
+                    Message = ResponseMessage.RecordIsNull
+                };
+            }
+
             await context.Owners.AddAsync(owner);
 
             await context.SaveChangesAsync();
@@ -85,9 +87,18 @@ namespace Mascotas.Api.Infrastructure.Repositories
             return new ResponseEntity
             {
                 Id = owner.Id,
+
                 PropertyName = owner.FirstName + " " + owner.LastName,
+
                 Message = ResponseMessage.RecordSuccessfullSaved
             };
+        }
+
+        public async Task<ResponseEntity> UpdateOwner(Owner owner)
+        {
+            var result = await ReturnMessageUpdateOwner(owner);
+
+            return result;
         }
 
         public async Task<ResponseEntity> ReturnMessageUpdateOwner(Owner owner)
@@ -99,27 +110,24 @@ namespace Mascotas.Api.Infrastructure.Repositories
                 return new ResponseEntity
                 {
                     Id = owner.Id,
+
                     PropertyName = owner.FirstName + " " + owner.LastName,
+
                     Message = ResponseMessage.RecordNotExist
                 };
             }
-            await context.Owners.AddAsync(owner);
+            context.Owners.Update(owner);
 
             await context.SaveChangesAsync();
 
             return new ResponseEntity
             {
                 Id = owner.Id,
+
                 PropertyName = owner.FirstName + " " + owner.LastName,
+
                 Message = ResponseMessage.RecordUpdated
             };
-        }
-
-        public async Task<ResponseEntity> UpdateOwner(Owner owner)
-        {
-            var result = await ReturnMessageUpdateOwner(owner);
-
-            return result;
         }
     }
 }

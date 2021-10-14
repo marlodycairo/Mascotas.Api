@@ -22,14 +22,14 @@ namespace Mascotas.Api.ApplicationServices
             return await historyDomain.CreateNewHistory(history);
         }
 
-        public Task<IEnumerable<HistoryDto>> GetAllHistories()
+        public async Task<IEnumerable<HistoryDto>> GetAllHistories()
         {
-            throw new NotImplementedException();
+            return await historyDomain.GetAllHistories();
         }
 
-        public Task<HistoryDto> GetHistoryById(int id)
+        public async Task<HistoryDto> GetHistoryById(int id)
         {
-            throw new NotImplementedException();
+            return await historyDomain.GetHistoryById(id);
         }
 
         public Task<HistoryDto> SearchHistory()

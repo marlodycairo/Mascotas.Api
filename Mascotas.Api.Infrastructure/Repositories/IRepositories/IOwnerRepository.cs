@@ -6,7 +6,7 @@ namespace Mascotas.Api.Infrastructure.Repositories.IRepositories
 {
     public interface IOwnerRepository
     {
-        Task<Owner> AddOwner(Owner owner);
+        Task<ResponseEntity> AddOwner(Owner owner);
         Task<IEnumerable<Owner>> GetAllOwners();
         Task<Owner> GetOwnerById(int id);
         Task DeleteOwner(int id);

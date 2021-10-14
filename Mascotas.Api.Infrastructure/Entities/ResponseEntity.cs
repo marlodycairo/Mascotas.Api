@@ -10,6 +10,7 @@ namespace Mascotas.Api.Infrastructure.Entities
         public int Id { get; set; }
         public int PropertyNumeric { get; set; }
         public string PropertyName { get; set; }
+        public string PropertyName2 { get; set; }
         public DateTime Date { get; set; }
         public string Message { get; set; }
     }

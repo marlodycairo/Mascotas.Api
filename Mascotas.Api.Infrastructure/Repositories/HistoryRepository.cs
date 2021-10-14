@@ -44,14 +44,21 @@ namespace Mascotas.Api.Infrastructure.Repositories
             return new ResponseEntity { Id = history.Id, Message = ResponseMessage.RecordSuccessfullSaved };
         }
 
-        public Task<IEnumerable<History>> GetAllHistories()
+        public async Task<IEnumerable<History>> GetAllHistories()
         {
-            throw new NotImplementedException();
+            return await context.Histories.ToListAsync();
         }
 
-        public Task<History> GetHistoryById(int id)
+        public async Task<History> GetHistoryById(int id)
         {
-            throw new NotImplementedException();
+            var historyExist = await context.Histories.AnyAsync(p => p.Id == id);
+
+            if (!historyExist)
+            {
+                return new History { Id = 0, Date = DateTime.Today, AgendaId = 0, Comment = "", OwnerId = 0, PetId = 0, VeterinaryId = 0 };
+            }
+
+            return await context.Histories.FirstOrDefaultAsync(p => p.Id == id);
         }
 
         public Task<History> SearchHistory()

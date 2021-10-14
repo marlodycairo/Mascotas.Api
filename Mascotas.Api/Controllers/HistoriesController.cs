@@ -27,5 +27,21 @@ namespace Mascotas.Api.Controllers
 
             return Ok(history);
         }
+
+        [HttpGet]
+        public async Task<IEnumerable<HistoryDto>> GetHistories()
+        {
+            var histories = await historyApplication.GetAllHistories();
+
+            return histories;
+        }
+
+        [HttpGet("{id}")]
+        public async Task<ActionResult<HistoryDto>> GetHistory(int id)
+        {
+            var history = await historyApplication.GetHistoryById(id);
+
+            return Ok(history);
+        }
     }
 }

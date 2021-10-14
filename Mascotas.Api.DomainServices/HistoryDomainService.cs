@@ -32,14 +32,22 @@ namespace Mascotas.Api.DomainServices
             return response;
         }
 
-        public Task<IEnumerable<HistoryDto>> GetAllHistories()
+        public async Task<IEnumerable<HistoryDto>> GetAllHistories()
         {
-            throw new NotImplementedException();
+            var history = await historyRepository.GetAllHistories();
+
+            var histories = mapper.Map<IEnumerable<HistoryDto>>(history);
+            
+            return histories;
         }
 
-        public Task<HistoryDto> GetHistoryById(int id)
+        public async Task<HistoryDto> GetHistoryById(int id)
         {
-            throw new NotImplementedException();
+            var history = await historyRepository.GetHistoryById(id);
+
+            var historyById = mapper.Map<HistoryDto>(history);
+
+            return historyById;
         }
 
         public Task<HistoryDto> SearchHistory()
